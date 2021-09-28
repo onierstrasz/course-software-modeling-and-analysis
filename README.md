@@ -1,6 +1,6 @@
 # SMA: Software Modeling and Analysis
 
-![software-reengineering](sde-web.jpg)
+![software-reengineering](figures/sde-web.jpg)
 
 This repo contains selected lecture material for the MSc level course “P2 -- Object-Oriented Design”.
 

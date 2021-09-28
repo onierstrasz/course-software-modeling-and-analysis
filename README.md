@@ -24,14 +24,14 @@ After the successful completion of this course, you will:
 
 ## Slides
 
-The slides have been prepared with Apple Keynote. Interspersed with the slideware are hidden slides containing notes for students. PDF versions of the slides can be found [here](http://scg.unibe.ch/download/lectures/p2/).
+The slides have been prepared with Apple Keynote. Interspersed with the slideware are hidden slides containing notes for students. PDF versions of the slides can be found [here](http://scg.unibe.ch/download/lectures/sma/).
 
 The figures for the slides have mostly been prepared using [OmniGraffle](https://www.omnigroup.com/omnigraffle/).
 
 ## Repo
 
-This repo lives on [github](https://github.com/onierstrasz/course-p2-oo-design).
-Further resources can be found on the [course web site](http://scg.unibe.ch/teaching/p2).
+This repo lives on [github](https://github.com/onierstrasz/course-software-modeling-and-analysis).
+Further resources can be found on the [course web site](http://scg.unibe.ch/teaching/sma).
 
 ![CCSA4](https://licensebuttons.net/l/by-sa/3.0/88x31.png)
 This work is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).

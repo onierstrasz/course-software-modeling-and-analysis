@@ -2,7 +2,7 @@
 
 ![software-reengineering](figures/sde-web.jpg)
 
-This repo contains selected lecture material for the MSc level course “P2 -- Object-Oriented Design”.
+This repo contains selected lecture material for the MSc level course “SMA: Software Modeling and Analysis”.
 
 Please note that there are additional guest lectures which are not included here.
 

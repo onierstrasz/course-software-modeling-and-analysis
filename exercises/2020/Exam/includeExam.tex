@@ -1,0 +1,117 @@
+\usepackage{verbatim}
+\usepackage{times}
+\usepackage{ifthen}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage{tabto}
+\usepackage[colorlinks,urlcolor=black,linkcolor=black,urlcolor=blue]{hyperref}
+\usepackage{lastpage}
+\usepackage{subfig}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage{xspace}
+\usepackage{textcomp}
+\usepackage[euler-digits,euler-hat-accent]{eulervm}
+
+\newcommand{\caret}{\hspace*{0.125cm}$\hat{}$\hspace*{0.05cm}}
+
+\lstset{
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\footnotesize\ttfamily,        % the size of the fonts that are used for the code \tiny \scriptsize
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  mathescape=true,
+  commentstyle=\color{black},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapechar=\@
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{black},       % keyword style
+  language=Java,                 % the language of the code
+  morekeywords={*,...},            % if you want to add more keywords to the set
+  numbers=none,                    % where to put the line-numbers; possible values are (none, left, right)
+  numberstyle=\tiny, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{black},     % string literal style
+  tabsize=2,                       % sets default tabsize to 2 spaces
+  xleftmargin=.25in,
+  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+
+% solution switch
+\newboolean{showsolution}
+\setboolean{showsolution}{true} 
+
+%layout
+\topmargin      -5.0mm
+\oddsidemargin  6.0mm
+\evensidemargin -6.0mm
+\textheight     215.5mm
+\textwidth      160.0mm
+\parindent      1.0em
+\headsep        10.3mm
+\headheight     12pt
+\lineskip       1pt
+\normallineskip 1pt
+
+%header
+\lhead{SMA: Software Modeling and Analysis\\A2020}
+
+\rhead{Prof. Dr. Oscar Nierstrasz\\Pascal Gadient, Pooja Rani}
+
+\lfoot{page \hspace{0.03cm} \thepage \hspace{0.11cm} of \hspace{0.09cm} \pageref*{LastPage}}
+\rfoot{16 December 2020}
+%\rfoot{\today}
+\cfoot{}
+
+\renewcommand{\headrulewidth}{0.1pt}
+\renewcommand{\footrulewidth}{0.1pt}
+
+\def\xexercise{\fontsize{12}{10}\fontseries{bx}\selectfont}
+\def\xnormal{\fontseries{m}\fontshape{n}\selectfont}
+
+\newcounter{exnum}
+\newcommand{\exercise}[1]{%
+	{\addtocounter{exnum}{1}\vskip 0.8cm{\xexercise \noindent Exercise \arabic{exnum} -- #1} \xnormal} \vskip 0.3cm}
+\newcommand{\aufgabe}[1]{
+	{\addtocounter{exnum}{1}\vskip 0.8cm{\xexercise \noindent Aufgabe \arabic{exnum} - #1} \xnormal} \vskip 0.3cm}
+
+%enumeration
+\newenvironment{myitemize}{%
+     \begin{itemize}
+     \setlength{\itemsep}{0cm}}
+     {\end{itemize}}
+
+\newenvironment{myenumerate}{%
+	\renewcommand{\labelenumi}{\alph{enumi})}
+	\renewcommand{\labelenumii}{\arabic{enumii})}
+     \begin{enumerate} \setlength{\itemsep}{0cm}}
+     {\end{enumerate}}
+
+
+%solution
+\ifthenelse{\boolean{showsolution}}
+   {  \newcommand{\solution}[1]{
+   	\noindent\underline{\textcolor{red}{\textbf{Answer:}}}\\[2mm]
+   	 \textsl{\textcolor{red}{#1}}
+	 \vspace{10pt}
+	 \normalsize
+	}
+  }
+  {  \newcommand{\solution}[1]{} }
+
+
+\pagestyle{fancy}
+
+
+\newcommand{\ie}{\emph{i.e.},\xspace}
+\newcommand{\eg}{\emph{e.g.},\xspace}
+\newcommand{\etc}{\emph{etc.}\xspace}

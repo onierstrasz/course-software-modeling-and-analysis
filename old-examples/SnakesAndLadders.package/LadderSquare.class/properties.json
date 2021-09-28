@@ -1,0 +1,14 @@
+{
+	"category" : "SnakesAndLadders",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "onierstrasz 8/18/2016 14:22",
+	"instvars" : [
+		"forward" ],
+	"name" : "LadderSquare",
+	"pools" : [
+		 ],
+	"super" : "BoardSquare",
+	"type" : "normal" }

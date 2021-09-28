@@ -1,0 +1,191 @@
+\documentclass [11pt, a4wide, twoside]{article}
+
+\makeatletter
+\newcommand{\dontusepackage}[2][]{%
+\@namedef{ver@#2.sty}{9999/12/31}%
+\@namedef{opt@#2.sty}{#1}}
+\makeatother
+
+\dontusepackage{enumerate}
+
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{ifthen}
+\usepackage{xspace}
+\usepackage{fancyhdr}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+\usepackage{listings}
+\usepackage{color}
+\usepackage{enumitem}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true
+  tabsize=3
+}
+
+\newboolean{showsolution}
+\setboolean{showsolution}{true} 
+
+\newlist{todolist}{itemize}{2}
+\setlist[todolist]{label=$\square$}
+\usepackage{pifont}
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+\newcommand{\done}{\rlap{$\square$}{\raisebox{2pt}{\large\hspace{1pt}\cmark}}%
+\hspace{-2.5pt}}
+\newcommand{\wontfix}{\rlap{$\square$}{\large\hspace{1pt}\xmark}}
+
+
+\input{../include}
+\definecolor{mircolor}{rgb}{0.4,0.6,0.2}
+\newcommand\ml[1]{\nbc{ML}{#1}{mircolor}}
+\usepackage{wasysym}
+\newcommand\yesml[1]{\nbc{ML {\textcolor{yellow}\sun}}{#1}{mircolor}}
+
+\begin{document}
+
+\section*{\ifthenelse{\boolean{showsolution}}{\textcolor{red}{Solution}\\}{}Assignment 13 --- 09.12.2020 -- v1.0\\Socio-technical Aspects in Software Systems}
+
+\textcolor{red}{Please submit this exercise by mail to \href{mailto:pascal.gadient@inf.unibe.ch}{pascal.gadient@inf.unibe.ch} \underline{before} 23 December 2020, 10:15am.}
+\newline\newline \textbf{\textcolor{red}{\textit{The rules: (i) all answers are sorted in alphabetical order, (ii) some questions require multiple crosses, while others require exactly one, (iii) you should provide exactly 19 crosses in the whole assignment (and not less or more!), (iv) every correct cross counts, (v) when you provide too many crosses in the assignment you will end up missing points, (vi) you do not need to elaborate on your choices.}}}
+\newline\newline The papers required for some of the questions can be downloaded here: \href{https://www.cs.drexel.edu/\~yfcai/CS680/Readings/Week8/Identification\%20of\%20Coordination\%20Requirements.pdf}{Paper 01}, \href{https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/bird2011dtm.pdf}{Paper 02}, \href{https://www.researchgate.net/publication/221560626\_Latent\_social\_structure\_in\_open\_source\_projects}{Paper 03}.
+
+% Demo for nice markings
+% \subsection*{Exercise 1: General Knowledge (4 Points)}
+% \begin{itemize}
+% \item Does correlation imply causality?
+% \begin{todolist}
+% \item[\wontfix] No.
+% \item[\done] Yes.
+% \end{todolist}
+% \end{itemize}
+
+\subsection*{Exercise 1: General Knowledge (1.0 pt BONUS)}
+% \begin{itemize}
+% \item Does correlation imply causality?
+% \begin{todolist}
+% \ifthenelse{\boolean{showsolution}}{\item[\done]}{\item} No.
+% \item Yes.
+% \end{todolist}
+% \end{itemize}
+
+\begin{enumerate}[label=\alph*)]
+\item How was the quality of Melvin Conway's initial proposal about his discovery regarding design and structure?
+\begin{todolist}
+\item He had no weaknesses in his paper.
+\item He had too many spelling mistakes in his submission.
+\ifthenelse{\boolean{showsolution}}{\item[\done]}{\item} He lacked scientific evidence for his hypothesis.
+\item The paper was not yet finished when the deadline approached.
+\end{todolist}
+
+\item Which statements regarding sociotechnical aspects and systems are correct?
+\begin{todolist}
+\item A regular computer mouse is a sociotechnical system
+\ifthenelse{\boolean{showsolution}}{\item[\done]}{\item} A sociotechnical aspect does not necessarily refer to materialized technology
+\item A sociotechnical system considers exclusively sociotechnical aspects 
+\ifthenelse{\boolean{showsolution}}{\item[\done]}{\item} Facebook is a sociotechnical system
+\ifthenelse{\boolean{showsolution}}{\item[\done]}{\item} The internet is a sociotechnical system at large
+\end{todolist}
+\end{enumerate}
+
+\newpage
+
+\subsection*{Exercise 2: Social-technical aspects in software systems (3.5 pts BONUS)}
+\begin{enumerate}[label=\alph*)]
+\item \textbf{Paper 01:} What are according to the authors significant elements that affect the resolution time of modification requests?
+\begin{todolist}
+\item Age
+\item Cultural background
+\ifthenelse{\boolean{showsolution}}{\item[\done]}{\item} Domain familiarity
+\ifthenelse{\boolean{showsolution}}{\item[\done]}{\item} General programming experience
+\ifthenelse{\boolean{showsolution}}{\item[\done]}{\item} Size of the modification
+\end{todolist}
+
+\item \textbf{Paper 01:} How does time affect the congruence measures across releases?
+\begin{todolist}
+\ifthenelse{\boolean{showsolution}}{\item[\done]}{\item} Geographical congruence remains stable without any significant changes
+\ifthenelse{\boolean{showsolution}}{\item[\done]}{\item} Internet relay chat congruence increases significantly over time
+\item Modification request congruence decreases over time
+\ifthenelse{\boolean{showsolution}}{\item[\done]}{\item} Structural congruence decays over time
+\end{todolist}
+
+\item \textbf{Paper 02:} To what refers the term ``proportion of ownership''?
+\begin{todolist}
+\item Ratio of bugs caused in commits that the contributor has made relative to the total number of bugs caused for that component.
+\item Ratio of lines of code of commits that the contributor has made relative to the total number of lines of code in commits for that component.
+\item Ratio of minutes spent on coding for a commit that the contributor has made relative to the total number of minutes that have been spent on developing that component.
+\ifthenelse{\boolean{showsolution}}{\item[\done]}{\item} Ratio of number of commits that the contributor has made relative to the total number of commits for that component.
+\end{todolist}
+
+\item \textbf{Paper 02:} Which statements are correct?
+\begin{todolist}
+\ifthenelse{\boolean{showsolution}}{\item[\done]}{\item} Higher levels of ownership for the top contributor to a component results in fewer failures when controlling for the same metrics, but the effect is smaller than the number of minor contributors.
+\item Measures of ownership and standard code measures show a much larger relationship to post-release failures in Windows 7.
+\ifthenelse{\boolean{showsolution}}{\item[\done]}{\item} Ownership has a stronger relationship with pre-release failures than post-release failures.
+\item The number of minor contributors has a weak negative relationship with both pre- and post-release failures even when controlling for metrics such as size, churn, and complexity.
+\end{todolist}
+
+\newpage
+
+\item \textbf{Paper 02:} What have been the recommendations to avoid common pitfalls?
+\begin{todolist}
+\item Changes from externals should be reviewed first, before the changes get commited to the main work branch
+\ifthenelse{\boolean{showsolution}}{\item[\done]}{\item} Changes made by minor contributors should be reviewed with more scrutiny
+\ifthenelse{\boolean{showsolution}}{\item[\done]}{\item} Components with low ownership should be given priority by QA resources
+\item Pair programming should be enforced for programming tasks involving complex problems
+\ifthenelse{\boolean{showsolution}}{\item[\done]}{\item} Potential minor contributors should communicate desired changes to developers experienced with the respective binary
+\end{todolist}
+
+\item \textbf{Paper 03:} Which of these open-source project datasets have been used for evaluation?
+\begin{todolist}
+\ifthenelse{\boolean{showsolution}}{\item[\done]}{\item} Ant
+\item Eclipse
+\item Gradle
+\item LibreOffice
+\item Lua
+\item Oracle Database
+\item Ruby
+\item Smalltalk
+\end{todolist}
+
+\item \textbf{Paper 03:} Which of these hypotheses has \textit{not} been qualitatively and quantitatively confirmed?
+\begin{todolist}
+\item Pairs of developers within the same subcommunity will have more files in common than pairs of developers from different subcommunties.
+\item Social networks constructed from product-related discussions will be more modular than those relating to non-product related discussions or all discussions.
+\item Subcommunities of participants will form in the email social networks of large open source projects and the levels of modularity will be statistically significant.
+\ifthenelse{\boolean{showsolution}}{\item[\done]}{\item} The average directory distance between files committed to by developers in the same subcommunity will be less than similar sized groups of developers drawn different subcommunities.
+\end{todolist}
+\end{enumerate}
+
+\subsection*{Exercise 3: PyDriller (0.5 pts BONUS)}
+\begin{enumerate}[label=\alph*)]
+\item What is the main purpose of PyDriller available from \href{https://github.com/ishepard/pydriller}{here}?
+\begin{todolist}
+\item It brings novel machine learning algorithms to Python
+\ifthenelse{\boolean{showsolution}}{\item[\done]}{\item} It helps developers in analyzing Git repositories
+\item It is a spell-checker for Python IDEs
+\item It provides static code analysis for Python scripts
+\end{todolist}
+\end{enumerate}
+
+\end{document}

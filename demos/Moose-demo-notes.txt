@@ -1,0 +1,114 @@
+# SMA Moose Demo notes
+
+Mtg w TG 2016-09-16
+
+Need Java 8 for jdt2famix
+(Could already start with MSE file)
+Run jdt2famix from folder containing src and lib
+Generates MSE and problems file.
+Fix problems — unresolved method often means missing return type due to missing jar etc
+
+http://new.themoosebook.org/book/nutshell/index.html
+
+Problem: which deprecated classes can I remove?
+How would you solve this?
+(find deprecated classes; find references; how do you do this?)
+[Problem: searching won’t find you just the *classes*; there actually is a way in eclipse to search for deprecated classes!]
+Insist on how exactly they would search!
+How much time would it take you to solve this?
+Get them to measure the clicks (eg in eclipse)
+Convince them to look at software not as text but as models.
+
+Load ArgoUML MSE
+All model classes
+view some
+browse to blueprint and then to source
+NB: the source is the *last* thing you see
+
+Write a script:
+self select: [: each | each isAnnotatedWith: 'Deprecated']
+25 classes
+NB: do *not* explain what you are doing!
+Now select those with no clients.
+self select: [ :each | each clientTypes notEmpty ]
+We see 14 without clients. 
+NB: take about ten minutes for discussion; but one a few minutes to actually solve the problem.
+NOW ask who was able to follow what you were doing.
+
+What to do about the rest
+Check if the clients are deprecated?
+On white board discuss.
+Cases: deprecated class using deprecated; etc (3 cases at least)
+Which case would you start with?
+
+Q Why is this picture not in the IDE?
+Write a Roassal to display the classes.
+It’s not just a picture.
+Add colours for deprecated ones.
+Add edges.
+Add force based layout.
+Then see which non-deprecated classes are using deprecated ones.
+This defines a workflow!
+Now you can dive into the classes.
+Look at all the views to see history of what we did. (Source code only at end.)
+
+Task: need to investigate the ant (xml) files
+Use a query to generate view of source file system
+click to xml files
+Task: how to find properties of ant files
+Browsing source?
+Pain point: scroll bar
+Use XMLDOMParser to parse it, then view the tree
+But don’t scroll through the tree
+Use XPath to select the ones you want
+Select all the views to see history of what we did.
+Again, we see the source code only the end.
+
+How do we discover the API?
+eg clientTypes
+Navigate through the model; switch to evaluator; type the code
+How do you know that’s the code?
+Go to navigator; right click to Utilities>Browse code implementing this navigation
+
+---
+
+# Moose Demo Notes
+
+http://www.themoosebook.org/book/introduction/nutshell
+
+Importing
+https://github.com/girba/jdt2famix
+*** try this!
+
+Fame - meta engine
+FM3 - MOF-like metametamodel
+
+Import MSE of ArgoUML
+
+* Setting root folder does not seem to work
+  - after setting, no change
+  - the set dialog does not show the current setting
+  * works when I build an MSE with jdt2famix of tictactoe
+* also placing the source next to the image does not work
+  - works for tictactoe
+
+- FAMIX model
+http://www.themoosebook.org/book/internals/famix/core/overview
+
+
+
+
+---
+# FAQ
+
+- How is MSE specified? How do you generate correct MSE?
+
+- How can we explore the metamodel of an MSE file?
+  - <http://www.themoosebook.org/book/internals/famix/meta-browser>
+
+- Some visualisations appear to be missing
+  - Side-by-side duplications
+  - Namespace Dependencies
+
+---
+

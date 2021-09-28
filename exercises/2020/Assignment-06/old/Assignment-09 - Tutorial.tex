@@ -1,0 +1,144 @@
+\documentclass [11pt, a4wide, twoside]{article}
+
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{ifthen}
+\usepackage{xspace}
+\usepackage{fancyhdr}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true
+  tabsize=3
+}
+
+\newboolean{showsolution}
+\setboolean{showsolution}{true} 
+
+\input{../include}
+\definecolor{mircolor}{rgb}{0.4,0.6,0.2}
+\newcommand\ml[1]{\nbc{ML}{#1}{mircolor}}
+\usepackage{wasysym}
+\newcommand\yesml[1]{\nbc{ML {\textcolor{yellow}\sun}}{#1}{mircolor}}
+
+\begin{document}
+
+\section*{\ifthenelse{\boolean{showsolution}}{\textcolor{red}{Solution}\\}{}Assignment 09 --- 14/11/2018 -- v1.0\\Smalltalk: Software Visualization}
+
+\textcolor{red}{Please submit this exercise by mail to \href{mailto:sma@list.inf.unibe.ch}{sma@list.inf.unibe.ch} \underline{before} 21 November 2018, 10:15am, and \textbf{use the \textit{file out} feature in the \textit{System Browser} to export the Smalltalk classes you created.}}
+
+\subsection*{Exercise 1: Using the Roassal API to analyze the \texttt{Collection} hierarchy.}
+\subsubsection*{Sunburst}
+Build a Sunburst visualization to analyze test coverage of the \texttt{Collection} class hierarchy. The area of the tiles must encode the number of lines of code of the represented class. Also, classes that have a test must be in green, while other classes must be in gray. \\ \\
+Hint: You can assume that classes covered by tests have a corresponding class with similar name with the postfix \texttt{Test} (e.g., \texttt{ByteArray} - \texttt{ByteArrayTest}). \\
+
+\includegraphics[scale=0.2]{images/sunburst.png}
+
+\solution{
+\begin{lstlisting}
+  | b |
+b := RTSunburstBuilder new.
+b layout sunburstWithRadius: 100.
+b
+  angularSpacing: 1;
+  radialSpacing: 5.
+b shape
+  color: [ :cls | 
+    (Smalltalk includesKey: (cls name , 'Test') asSymbol)
+      ifTrue: [ Color green ]
+      ifFalse: [ Color gray ] ].
+b   leafWeight:[:e| e numberOfLinesOfCode].
+b explore: Collection using: #subclasses.
+b view elements
+  @
+    (RTLabeled new
+      color: Color black; fontSize: 20;
+      setAsShouldBeInTheFront;
+      center).
+^ b
+
+\end{lstlisting}}
+\subsubsection*{Treemap}
+Build a Treemap visualization to have an overview of classes that contain the string \texttt{Array} in their names, and that have subclasses. The area of the tiles must encode the number of methods of the represented class. Also, classes that that contain the string \texttt{Array} in their names, and that have subclasses must be in green, while other classes must be in gray.
+
+
+\includegraphics[scale=0.2]{images/treemap.png}
+
+\subsubsection*{Discussion}
+Comment on the strenghts and limitations of the Sunburst and the Treemap visualization. 
+%solution
+\begin{lstlisting}
+| b |
+b := RTTreeMapBuilder new.
+b shape
+  color: Color transparent;
+  borderColor: Color black;
+  if: [ :obj | obj isClass ]
+    color: [ :cls | 
+    (cls subclasses notEmpty and:[('*Array*' match: cls name)])
+      ifTrue: [ Color green ]
+      ifFalse: [ Color gray ] ] .
+b
+  leafWeight: [:e| e methods size];
+  explore: Collection using: #subclasses.
+^ b
+\end{lstlisting}
+
+
+\subsection*{Exercise 2:}
+Node-link diagrams can provide insights of the relationships amongst the classes in a system. In this exercise you have to create a visualization using the \texttt{Mondrian} builder to analyze the class dependencies between the \texttt{Collection} class hierarchy and the \texttt{RTLayout} class hierarchy. To this end, you have to:\\
+(1) Visualize the classes of both hierarchies using circles (i.e., \texttt{RTEllipse})\\ 
+(2) Use a different color to differenciate the classe of each hierarchy. \\
+(3) Add edges to depict the class hierarchy, and use the \texttt{RTClusterLayout} \\
+(4) Add blue Bezier edges to depict class dependencies \\
+\\
+Provide the Roassal code to implement such visualization, and use it to identify the classes in each hierarchy that have the highest number of dependencies. \\
+
+\includegraphics[scale=0.2]{images/cluster.png}
+
+
+%solution
+\begin{lstlisting}
+| classes b |
+classes := RTLayout withAllSubclasses , Collection withAllSubclasses.
+b := RTMondrian new.
+b shape circle; color:[:cls| (RTLayout withAllSubclasses includes: cls) ifTrue:[Color green] ifFalse:[Color red]].
+b nodes: classes.
+b edges connectFrom: #superclass.
+b shape
+  bezierLineFollowing: #superclass;
+  color: (Color blue alpha: 0.2).
+b edges
+  notUseInLayout;
+  connectToAll: #dependentClasses.
+b normalizer
+  normalizeSize: #numberOfMethods using: #sqrt.
+b layout cluster.
+b build.
+^ b
+\end{lstlisting}
+
+\end{document}
+

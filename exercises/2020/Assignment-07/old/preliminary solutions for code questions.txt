@@ -1,0 +1,42 @@
+1. Write a query to find all classes that have more than 42 methods.
+```self allModelClasses select: [ :aClass |
+    aClass methods size > 42 ]```
+2. Write a query to find all methods that have cyclomatic complexity more than 84. Is 84 a large value for the CYCLO metric? What kinds of methods have this complexity?
+```self allMethods select: [ :aMethod |
+    aMethod cyclomaticComplexity > 84 ]```
+(edited)
+3. Write a detection strategy for God classes based on the WMC and TCC metrics (ATFD is not available in Moose; optionally you can compute this metric yourself)
+```self allModelClasses
+    select: [ :aClass |
+         aClass weightedMethodCount > 150 and: [
+         aClass tightClassCohesion < 0.5 ] ].```
+(edited)
+4.1 Write a query to obtain the list of test methods that call deprecated methods (only if you are using lucene-solr).
+```"In lucene-solr test classes are subclasses of LuceneTestCase."
+rootTestClass := self allModelClasses detect: [ :aClass |
+    aClass name = 'LuceneTestCase' ].
+ rootTestClass withSubclassHierarchyGroup select: [ :aClass |
+     aClass providerTypes anySatisfy: [ :aProvierClass |
+         aProvierClass isAnnotatedWith: 'Deprecated' ]].```
+4.2 Write a query to obtain the list of classes from any package that begins with org.argouml.core that call deprecated methods (only if you are using ArgoUML)
+```targetClasses := self allModelClasses select: [ :aClass |
+     aClass mooseNameWithDots beginsWith: 'org.argouml.core.' ]. 
+targetClasses select: [ :aClass |
+      aClass providerTypes anySatisfy: [ :aProvierClass |
+          aProvierClass isAnnotatedWith: 'Deprecated' ]]```
+5. Write a query to obtain all attributes that are public and are all camel case with capital letters, but are not declared final.
+```((self allAttributes
+     select: [ :each | each isPublic ]) 
+     select: [ :each | each name allSatisfy: [ :c |
+         c isUppercase or: [c = $_]]])
+     reject: [ :each | each modifiers includes: 'final' ].```
+(6. Should be optional as it’s more complex) Write a query to obtain the list of methods that make more than one call to methods from deprecated classes.
+```deprecatedMethods := (self allModelClasses select: [ :aClass |
+     aClass isAnnotatedWith: 'Deprecated']) flatCollect: #methods. 
+methodsUsingDeprecatedMethods := (deprecatedMethods flatCollect: [ :aMethod |
+     aMethod clientMethods]) asSet. 
+methodsUsingDeprecatedMethods select: [ :aMethod |
+     | calledDeprecatedMethods |
+     calledDeprecatedMethods := aMethod clientMethods select: [ :anotherMethod |
+         anotherMethod parentType isAnnotatedWith: 'Deprecated' ].
+     calledDeprecatedMethods size > 1 ]```

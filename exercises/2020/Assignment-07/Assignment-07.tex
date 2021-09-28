@@ -1,0 +1,172 @@
+\documentclass [11pt, a4wide, twoside]{article}
+
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{ifthen}
+\usepackage{xspace}
+\usepackage{fancyhdr}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true
+  tabsize=3
+}
+
+\newboolean{showsolution}
+\setboolean{showsolution}{true} 
+
+\input{../include}
+\definecolor{mircolor}{rgb}{0.4,0.6,0.2}
+\newcommand\ml[1]{\nbc{ML}{#1}{mircolor}}
+\usepackage{wasysym}
+\newcommand\yesml[1]{\nbc{ML {\textcolor{yellow}\sun}}{#1}{mircolor}}
+
+\begin{document}
+
+\section*{\ifthenelse{\boolean{showsolution}}{\textcolor{red}{Solution}\\}{}Assignment 07 --- 28.10.2020 -- v1.0\\Software Metrics and Problem Detection}
+
+\textcolor{red}{Please submit this exercise by mail to \href{mailto:pascal.gadient@inf.unibe.ch}{pascal.gadient@inf.unibe.ch} \underline{before} 04 November 2020, 10:15am.}
+\newline\newline
+
+\noindent In this assignment, we will work with the GT image available from \href{https://gtoolkit.com/}{here}. If you already have it installed because of previous exercises you can use that one as well. However, please clean the image to avoid spurious results when counting classes, \emph{etc.}\\
+
+\noindent First, we have to download and extract two datasets, and second, we need to import them into GT. We can perform both tasks using GT's Playground. Be warned: this process will take several minutes depending on your device's CPU and internet connection. We strongly advise you to save the image when the process succeeded to avoid redoing these steps.\\
+
+\noindent The datasets can be downloaded and extracted with the following script:\\\\
+\texttt{targetFolder := (FileLocator imageDirectory asFileReference / \textquotesingle models\textquotesingle) ensureCreateDirectory.\\
+archiveFileName := \textquotesingle ArgoUML-0-34.zip\textquotesingle.\\
+archiveUrl := \textquotesingle https://dl.feenk.com/moose-tutorial/argouml/\textquotesingle.\\
+ZnClient new\\
+\hspace*{0.5cm}url: archiveUrl, archiveFileName;\\
+\hspace*{0.5cm}signalProgress: true;\\
+\hspace*{0.5cm}downloadTo: targetFolder.\\
+(ZipArchive new\\
+\hspace*{0.5cm}readFrom: targetFolder / archiveFileName)\\
+\hspace*{0.5cm}extractAllTo: targetFolder.}\\\\
+\texttt{targetFolder := (FileLocator imageDirectory asFileReference / \textquotesingle models\textquotesingle) ensureCreateDirectory.\\
+archiveFileName := \textquotesingle lucene-solr-52f2a77.zip\textquotesingle.\\
+archiveUrl := \textquotesingle https://dl.feenk.com/moose-tutorial/lucene-solr/\textquotesingle.\\
+ZnClient new\\
+\hspace*{0.5cm}url: archiveUrl, archiveFileName;\\
+\hspace*{0.5cm}signalProgress: true;\\
+\hspace*{0.5cm}downloadTo: targetFolder.\\
+(ZipArchive new\\
+\hspace*{0.5cm}readFrom: targetFolder / archiveFileName)\\
+\hspace*{0.5cm}extractAllTo: targetFolder.}\\
+
+\newpage
+
+\noindent The sample dataset can be imported with the following script:\\\\
+\texttt{modelFile := (FileLocator imageDirectory asFileReference / \textquotesingle models\textquotesingle)\\
+\hspace*{0.5cm}/ \textquotesingle ArgoUML-0-34\textquotesingle\\
+\hspace*{0.5cm}/ \textquotesingle ArgoUML-0-34.mse\textquotesingle.\\
+modelArgo := MooseModel new\\
+\hspace*{0.5cm}importMSEFromFile: modelFile.}\\\\
+\texttt{modelFile := (FileLocator imageDirectory asFileReference / \textquotesingle models\textquotesingle)\\
+\hspace*{0.5cm}/ \textquotesingle lucene-solr-52f2a77\textquotesingle\\
+\hspace*{0.5cm}/ \textquotesingle lucene-solr-52f2a77.mse\textquotesingle.\\
+modelSolr := MooseModel new\\
+\hspace*{0.5cm}importMSEFromFile: modelFile.}\\\\\\
+
+% Troubleshooting:
+% \begin{enumerate}
+% \item Problem (macOS only):\\There is a security issue while downloading the files with the script.\\\\
+% Solution:\\\texttt{targetFolder := (FileLocator imageDirectory asFileReference / 'models') ensureCreateDirectory.)}
+% % \item Problem (macOS only):\\
+% % Launcher won't launch.\\\\
+% % Solution:\\Acknowledge the dialog where the app asks for trust.
+% \end{enumerate}
+
+\newpage
+
+\subsection*{Exercise 1: Code metrics in theory (4 pts)}
+\begin{enumerate}[a)]
+\item What is the cyclomatic complexity? Explain the term and use the words \textit{benefit} and \textit{drawback} in your answer.\\
+\solution{The cyclomatic complexity is a software metric based on the software's control-flow graph (CFG) that represents a quantitative measure about the complexity of source code. It is quantitative (and not qualitative), because it does not consider any semantics, nor it performs any reasoning about the content. The formula is defined as \\
+\begin{math}
+M = E - N + 2P\text{, whereas}\\
+M \text{ represents the resulting metric, \ie the complexity value}\\
+E \text{ represents the number of edges of the CFG (possible different instruction flows)} \\
+N \text{ represents the number of nodes in the CFG (instructions), and}\\
+P \text{ represents the number of connected components, (P = 1 for analysis of a single program)}\\
+\end{math}
+\\That said, benefits of this metric are (i) M represents an upper bound for the number of test cases that are necessary to achieve a complete branch coverage of, and (ii) M is a lower bound for the number of paths through the CFG. Assuming each test case takes one path, the number of cases needed to achieve path coverage is equal to the number of paths that can actually be taken. However, some paths may be impossible, so although the number of paths through the CFG is clearly an upper bound on the number of test cases needed for path coverage, this latter number (of possible paths) is sometimes less than M.\\
+In simpler terms, the CYCLO value provides fast and easy to obtain information about the complexity of code, which is relevant for (almost) every static code analysis framework.\\
+As mentioned before, the drawback is that it does not consider any context-specific peculiarities of code. Consequently, the results must be treated with caution.}
+\ifthenelse{\boolean{showsolution}}{\newpage}{}
+\item Which other metrics do you know? List at least four and provide a short description for each.\\
+\solution{\vspace{-0.75cm}\begin{itemize}
+  \item LOC. The lines of code in a system. More complex than you might think, \eg are comments considered as code, or is code being compactified beforehand?
+  \item BUGS. The number of reported bugs per project, class, or method. Specific bug properties must be considered in order to gather desired results, \eg the bug classification.
+  \item TIME. The execution time required to run code. Side effects introduced by the evaluation system must be avoided (\eg concurrently running other tasks, varying network load).
+  \item SIZE. The size of an executable program. Depends on the target platform and bitness.
+\end{itemize}}
+\item Do metrics always express problems? In other words, is, for example, the lack of cohesion always a property to optimize?\\
+\solution{No, since many metrics are quantitative and not qualitative, they should not be mindlessly interpreted. The values must always be put in context to a specific (code) component. They are rather indicators for interesting / uncommon behaviors. Hence, a major lack of cohesion can occur for value classes that contain a plethora of different configuration parameters, although this is in general a good practice which should be preferred over spreading configuration values all over the project.}
+\item How and when are nowadays checks for those metrics integrated into development processes?\\
+\solution{Static analyses are rather cheap compared to the losses the missed issues would generate. Hence, software publishers usually cannot take the risk of missing major issues due to neglected static analyses of code. As a result, they continuously perform checks during the whole development cycle. For example, they perform checks during development in the IDE with help of plug-ins, during automated builds in the build system, or even after release with systems that analyse user feedback.}
+\end{enumerate}
+
+\subsection*{Exercise 2: Simple code metrics in practice (1 pt)}
+\begin{enumerate}[a)]
+\item Write a query to find all classes having more than 100 methods in \texttt{modelArgo}.
+\solution{\texttt{modelArgo allModelClasses select: [ :each \textbar\\
+\hspace*{0.5cm}each numberOfMethods \textgreater~100 ].}}
+\end{enumerate}
+
+
+\subsection*{Exercise 3: Advanced code metrics in practice (3 pts)}
+\begin{enumerate}[a)]
+\item Write a query to find all methods in \texttt{modelArgo} that have more than 150 lines of code, and a cyclomatic complexity of less than 4. (2 pts)
+\solution{\texttt{modelArgo allModelMethods select: [ :each \textbar\\
+\hspace*{0.5cm}(each numberOfLinesOfCode \textgreater~150) and: [\\
+\hspace*{1.0cm}each cyclomaticComplexity \textless~4 ] ]}}
+\item Apply your implementation from 3a) to \texttt{modelSolr} and compare the results between \texttt{modelArgo} and \texttt{modelSolr}. How do the results differ? (0.5 pts)
+\solution{The ArgoUML model contains many factory methods which configure the corresponding object, whereas the Solr model contains many complex test setups. Those test setups are similar to factory methods, because they configure a complex test environment. Both projects contain many methods that fall into the specified category.}
+\item Is it appropriate to use the same threshold values (150, 4) for any model? Justify! (0.5 pts)
+\solution{Yes, because the threshold is legitimate for simple and complex projects regardless of the programming language with only few exceptions, \eg generated code.}
+\end{enumerate}
+
+\subsection*{Exercise 4: Expert code metrics in practice (2 pts)}
+Add a method to the class \texttt{FAMIXType} that computes the ATFD metric for its objects. Because \texttt{FAMIXClass} is a subtype thereof, it will also automatically be available for all \texttt{FAMIXClass} objects. ATFD counts the attributes from other classes used by a class. Since in Java most data is accessed through accessors, we only care for setters and getters, \ie methods that begin with ``set'' or ``get''. (2 pts)\\\\
+\emph{NB: \texttt{queryAllOutgoingInvocations} and \texttt{parentType} are two useful methods for this exercise.}
+\solution{\texttt{atfd\\
+\caret~( (self queryAllOutgoingInvocations opposites\\
+\hspace*{0.5cm}reject: [ :each \textbar~each parentType = self ])\\
+\hspace*{0.5cm}select: [:each \textbar\\
+\hspace*{1.0cm}(each name beginsWith: \textquotesingle set\textquotesingle) or:\\
+\hspace*{1.0cm}[ each name beginsWith: \textquotesingle get\textquotesingle ] ] ) size.}}
+%\ifthenelse{\boolean{showsolution}}{\newpage}{}
+% \item Create a detection strategy for god classes and apply it to \texttt{modelArgo}. (1 pt BONUS)\\\\
+% \emph{In this exercise, you can assume god classes have the following properties: Tight Class Cohesion (TCC) \textless~0.33, Weighted Method Count \textgreater~150, and ATFD \textgreater~75. The metrics TCC and WMC are already available in Moose. For ATFD, you can use your selector from the previous exercise.}
+% \solution{\texttt{modelArgo allModelClasses select: [ :each \textbar\\
+% \hspace*{0.5cm}each tightClassCohesion \textless~0.33 and: [\\
+% \hspace*{1.0cm}each weightedMethodCount \textgreater~150 and: [\\
+% \hspace*{1.5cm}each atfd \textgreater~75 ] ] ]}}
+% \item Is it appropriate to apply these threshold values (0.33, 150, 75) to any project? Justify! (1 pt BONUS)
+% \solution{TODO}
+% \end{enumerate}
+
+\end{document}

@@ -1,0 +1,72 @@
+\documentclass [11pt, a4wide, twoside]{article}
+
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{ifthen}
+\usepackage{xspace}
+\usepackage{fancyhdr}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true
+  tabsize=3
+}
+
+% solution switch
+\newboolean{showsolution}
+\setboolean{showsolution}{false} 
+%\setboolean{showsolution}{false} 
+
+\input{../include}
+\definecolor{mircolor}{rgb}{0.4,0.6,0.2}
+\newcommand\ml[1]{\nbc{ML}{#1}{mircolor}}
+\usepackage{wasysym}
+\newcommand\yesml[1]{\nbc{ML {\textcolor{yellow}\sun}}{#1}{mircolor}}
+
+\begin{document}
+
+% title
+\section*{\ifthenelse{\boolean{showsolution}}{Solution }{}Bug Prediction}
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Please submit this exercise to the git repository before 10h15, November 15, 2016.
+
+\subsection*{Exercise 1:}
+
+Source code metrics and change metrics are two different categories. 
+The former represents the size / complexity of the code and the later represents the evolution of the software. 
+The predictive power of these metrics is different and we would like to know which category is better at bug prediction.
+
+Using Weka experimenter, compare the two categories of metrics using Support Vector Machines (called SMOreg in Weka) and Feed Forward Neural Networks (called Multilayer Perceptron in Weka).
+
+\href{https://dl.dropboxusercontent.com/u/28811625/SMA-Weka/Lucene-change-metrics.csv}{This} file has the change metrics of Lucene
+and \href{https://dl.dropboxusercontent.com/u/28811625/SMA-Weka/Lucene-source-metrics.csv}{this} file has the source code metrics of Lucene.
+
+
+
+You have to submit the results of your experiment and also configuration file of your experiment so we can reproduce your results.
+
+\end{document}

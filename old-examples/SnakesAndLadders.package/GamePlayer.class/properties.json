@@ -1,0 +1,15 @@
+{
+	"category" : "SnakesAndLadders",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "onierstrasz 8/18/2016 14:23",
+	"instvars" : [
+		"name",
+		"square" ],
+	"name" : "GamePlayer",
+	"pools" : [
+		 ],
+	"super" : "Object",
+	"type" : "normal" }

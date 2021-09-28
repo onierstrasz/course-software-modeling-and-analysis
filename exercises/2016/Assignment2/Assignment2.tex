@@ -1,0 +1,85 @@
+\documentclass [11pt, a4wide, twoside]{article}
+
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{ifthen}
+\usepackage{xspace}
+\usepackage{fancyhdr}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage{verbatim}
+
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true
+  tabsize=3
+}
+
+% solution switch
+\newboolean{showsolution}
+\setboolean{showsolution}{false} 
+%\setboolean{showsolution}{false} 
+
+\input{../include}
+
+\begin{document}
+
+% title
+\section*{\ifthenelse{\boolean{showsolution}}{Solution }{}Smalltalk: A Reflective Language}
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Please submit this exercise to the git repository before 10h15, October 4th, 2016.
+Don't forget to register to the  \href{https://piazza.com/unibe.ch/fall2016/sma21045}{piazza.com SMA page}.
+
+\subsection*{Exercise 1}
+\begin{itemize}
+\item What is the message that is sent to a superclass to create a subclass?
+\item What is the difference between a String and a Symbol object in Pharo? Why is it important?
+\item What is the accessibility of instance variables in Smalltalk?
+\item Write the equivalent of the following piece of code in Smalltalk, as a block, and execute it with values 3, 4, 5.
+	\begin{lstlisting}
+   	int grade;
+	if(grade < 4)
+		return "fail";
+	else if (grade < 5)
+		return "pass";
+	else if(grade < 6)
+		return "good";
+	else if (grade == 6)
+		return "excellent";
+	else
+		return "grade is not correct";
+\end{lstlisting}
+	
+\end{itemize}
+
+\subsection*{Exercise 2}
+
+Based on the code from the lecture and exercise (\href{http://scg.unibe.ch/download/lectures/sma/Demos/CallGraphDemo/CallGraph-5.st}{CallGraph-5.st}, \href{http://scg.unibe.ch/download/lectures/sma/Demos/CallGraphDemo/Calls.txt}{Calls.txt}), write the appropriate source code and answer the following questions:
+\begin{itemize}
+\item Find the top 10 most frequently invoked methods.
+\item Find the top 10 methods invoked on the largest number of different objects.
+\item Find all static methods.
+\item Find all classes containing at least two methods.
+
+\end{itemize}
+
+\end{document}

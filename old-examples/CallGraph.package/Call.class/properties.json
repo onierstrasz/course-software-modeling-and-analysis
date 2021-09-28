@@ -1,0 +1,16 @@
+{
+	"category" : "CallGraph",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "onierstrasz 8/17/2016 12:00",
+	"instvars" : [
+		"callee",
+		"args",
+		"caller" ],
+	"name" : "Call",
+	"pools" : [
+		 ],
+	"super" : "Object",
+	"type" : "normal" }

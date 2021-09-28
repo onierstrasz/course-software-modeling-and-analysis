@@ -1,0 +1,79 @@
+\documentclass [11pt, a4wide, twoside]{article}
+
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{ifthen}
+\usepackage{xspace}
+\usepackage{fancyhdr}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true
+  tabsize=3
+}
+
+% solution switch
+\newboolean{showsolution}
+\setboolean{showsolution}{false} 
+%\setboolean{showsolution}{false} 
+
+\input{../include}
+\definecolor{mircolor}{rgb}{0.4,0.6,0.2}
+\newcommand\ml[1]{\nbc{ML}{#1}{mircolor}}
+\usepackage{wasysym}
+\newcommand\yesml[1]{\nbc{ML {\textcolor{yellow}\sun}}{#1}{mircolor}}
+
+\begin{document}
+
+% title
+\section*{\ifthenelse{\boolean{showsolution}}{Solution }{}Metrics and Problem Detection}
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Please submit this exercise to the git repository before 10h15, October 25, 2016.
+You can get the \emph{.mse} file and related sources from \href{https://github.com/scg-unibe-ch/moose-demo-data/archive/master.zip}{here}. The \href{http://moosetechnology.org/#install}{moosetechnology.org} page contains an explanation on how to install Moose.
+
+\subsection*{Exercise 1}
+Write a method in Moose, that finds all the deprecated methods in the ArgoUML system.
+
+\subsection*{Exercise 2}
+Write a method in Moose, that finds the top 10 deprecated methods in the ArgoUML system with the largest number of \emph{invoking methods} (methods that invoke the one in question).
+
+\subsection*{Exercise 3}
+Write a method in Moose, that finds all the abstract methods in ArgoUML.
+
+\subsection*{Exercise 4}
+Write a method in Moose, that finds all the methods in ArgoUML that have more than 15 checks for null (use {\tt numberOfJavaNullChecks}) 
+
+\subsection*{Exercise 5}
+Write a method in Moose, that will find all the constructors in ArgoUML.
+
+\subsection*{Exercise 6}
+Write a method in Moose, that will find all the constructors in ArgoUML that have more than 100 lines of code.
+
+
+\subsection*{}
+Note: For the exercises, {\em file out} the appropriate source code and commit the .st file to the git repository on \url{https://bitbucket.org}.
+\end{document}

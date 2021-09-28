@@ -1,0 +1,204 @@
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{ifthen}
+\usepackage{xspace}
+\usepackage{fancyhdr}
+\usepackage{amsthm}
+\usepackage{hyperref}
+
+
+
+%layout
+\topmargin      -5.0mm
+\oddsidemargin  6.0mm
+\evensidemargin -6.0mm
+\textheight     215.5mm
+\textwidth      160.0mm
+\parindent      1.0em
+\headsep        10.3mm
+\headheight     12pt
+\lineskip       1pt
+\normallineskip 1pt
+
+\newtheorem{mydef}{Definition}
+
+
+%header
+\lhead{Software Modeling and Analysis \\ 2016}
+
+\rhead{Prof. Oscar Nierstrasz, Mohammad Ghafari, Nevena Milojkovi\'{c} and Yuriy Tymchuk}
+
+\lfoot{page \thepage}
+\rfoot{\today}
+\cfoot{}
+
+\renewcommand{\headrulewidth}{0.1pt}
+\renewcommand{\footrulewidth}{0.1pt}
+
+%enumeration
+\newenvironment{myitemize}{%
+     \begin{itemize}
+     \setlength{\itemsep}{0cm}}
+     {\end{itemize}}
+
+\newenvironment{myenumerate}{%
+     \begin{enumerate} \setlength{\itemsep}{0cm}}
+     {\end{enumerate}}
+
+
+%solution
+\ifthenelse{\boolean{showsolution}}
+   {  \newcommand{\solution}[1]{
+   	\noindent\underline{\textbf{Answer:}}\\[2mm]
+   	 \textsl{#1}
+	 \vspace{10pt}
+	 \normalsize
+	}
+  }
+  {  \newcommand{\solution}[1]{} }
+
+
+\pagestyle{fancy}
+
+% ============================================================
+% Markup macros for proof-reading
+\usepackage{ifthen}
+\usepackage[normalem]{ulem} % for \sout
+\usepackage{xcolor}
+\newcommand{\ra}{$\rightarrow$}
+\newboolean{showedits}
+\setboolean{showedits}{true} % toggle to show or hide edits
+\ifthenelse{\boolean{showedits}}
+{
+	\newcommand{\ugh}[1]{\textcolor{red}{\uwave{#1}}} % please rephrase
+	\newcommand{\ins}[1]{\textcolor{blue}{\uline{#1}}} % please insert
+	\newcommand{\del}[1]{\textcolor{red}{\sout{#1}}} % please delete
+	\newcommand{\chg}[2]{\textcolor{red}{\sout{#1}}{\ra}\textcolor{blue}{\uline{#2}}} % please change
+}{
+	\newcommand{\ugh}[1]{#1} % please rephrase
+	\newcommand{\ins}[1]{#1} % please insert
+	\newcommand{\del}[1]{} % please delete
+	\newcommand{\chg}[2]{#2}
+}
+% ============================================================
+% Put edit comments in a really ugly standout display
+%\usepackage{ifthen}
+\usepackage{amssymb}
+\newboolean{showcomments}
+\setboolean{showcomments}{true}
+%\setboolean{showcomments}{false}
+\newcommand{\id}[1]{$-$Id: scgPaper.tex 32478 2010-04-29 09:11:32Z oscar $-$}
+\newcommand{\yellowbox}[1]{\fcolorbox{gray}{yellow}{\bfseries\sffamily\scriptsize#1}}
+\newcommand{\triangles}[1]{{\sf\small$\blacktriangleright$\textit{#1}$\blacktriangleleft$}}
+\ifthenelse{\boolean{showcomments}}
+%{\newcommand{\nb}[2]{{\yellowbox{#1}\triangles{#2}}}
+{\newcommand{\nbc}[3]{
+ {\colorbox{#3}{\bfseries\sffamily\scriptsize\textcolor{white}{#1}}}
+ {\textcolor{#3}{\sf\small$\blacktriangleright$\textit{#2}$\blacktriangleleft$}}}
+ \newcommand{\version}{\emph{\scriptsize\id}}}
+{\newcommand{\nbc}[3]{}
+ \renewcommand{\ugh}[1]{#1} % please rephrase
+ \renewcommand{\ins}[1]{#1} % please insert
+ \renewcommand{\del}[1]{} % please delete
+ \renewcommand{\chg}[2]{#2} % please change
+ \newcommand{\version}{}}
+\newcommand{\nb}[2]{\nbc{#1}{#2}{orange}}
+\newcommand{\here}{\yellowbox{$\Rightarrow$ CONTINUE HERE $\Leftarrow$}}
+\newcommand\rev[2]{\nb{TODO (rev #1)}{#2}} % reviewer comments
+\newcommand\fix[1]{\nb{FIX}{#1}}
+\newcommand\todo[1]{\nb{TO DO}{#1}}
+\newcommand\on[1]{\nbc{ON}{#1}{red}} % add more author macros here
+%\newcommand\XXX[1]{\nbc{XXX}{#1}{blue}}
+%\newcommand\XXX[1]{\nbc{XXX}{#1}{brown}}
+%\newcommand\XXX[1]{\nbc{XXX}{#1}{cyan}}
+%\newcommand\XXX[1]{\nbc{XXX}{#1}{darkgray}}
+%\newcommand\XXX[1]{\nbc{XXX}{#1}{gray}}
+%\newcommand\XXX[1]{\nbc{XXX}{#1}{magenta}}
+%\newcommand\XXX[1]{\nbc{XXX}{#1}{olive}}
+%\newcommand\XXX[1]{\nbc{XXX}{#1}{orange}}
+%\newcommand\XXX[1]{\nbc{XXX}{#1}{purple}}
+%\newcommand\XXX[1]{\nbc{XXX}{#1}{red}}
+%\newcommand\XXX[1]{\nbc{XXX}{#1}{teal}}
+%\newcommand\XXX[1]{\nbc{XXX}{#1}{violet}}
+%=============================================================
+% ST80 listings macros
+% Adapted from Squeak by Example book
+%=============================================================
+% If you want >>> appearing as right guillemet, you need these two lines:
+%\usepackage[T1]{fontenc}
+%\newcommand{\sep}{\mbox{>>}}
+% Otherwise use this:
+\newcommand{\sep}{\mbox{$\gg$}}
+%=============================================================
+%:\needlines{N} before code block to force page feed
+\usepackage{needspace}
+\newcommand{\needlines}[1]{\Needspace{#1\baselineskip}}
+%=============================================================
+%:Listings package configuration for ST80
+\usepackage[english]{babel}
+\usepackage{amssymb,textcomp}
+\usepackage{listings}
+% \usepackage[usenames,dvipsnames]{color}
+% \usepackage[usenames]{color}
+% \definecolor{source}{gray}{0.95}
+\lstdefinelanguage{Smalltalk}{
+%  morekeywords={self,super,true,false,nil,thisContext}, % This is overkill
+  morestring=[d]',
+  morecomment=[s]{"}{"},
+  alsoletter={\#:},
+  escapechar={!},
+  literate=
+    {BANG}{!}1
+    {UNDERSCORE}{\_}1
+    {\\st}{Smalltalk}9 % convenience -- in case \st occurs in code
+    % {'}{{\textquotesingle}}1 % replaced by upquote=true in \lstset
+    {_}{{$\leftarrow$}}1
+    {>>>}{{\sep}}1
+    {^}{{$\uparrow$}}1
+    {~}{{$\sim$}}1
+    {-}{{\sf -\hspace{-0.13em}-}}1  % the goal is to make - the same width as +
+    {+}{\raisebox{0.08ex}{+}}1		% and to raise + off the baseline to match -
+    {-->}{{\quad$\longrightarrow$\quad}}3
+	, % Don't forget the comma at the end!
+  tabsize=4
+}[keywords,comments,strings]
+
+\definecolor{source}{gray}{0.95}
+
+\lstset{language=Smalltalk,
+	basicstyle=\sffamily,
+	keywordstyle=\color{black}\bfseries,
+	% stringstyle=\ttfamily, % Ugly! do we really want this? -- on
+	mathescape=true,
+	showstringspaces=false,
+	keepspaces=true,
+	breaklines=true,
+	breakautoindent=true,
+	backgroundcolor=\color{source},
+	lineskip={-1pt}, % Ugly hack
+	upquote=true, % straight quote; requires textcomp package
+	columns=fullflexible} % no fixed width fonts
+% In-line code (literal)
+% Normally use this for all in-line code:
+\newcommand{\ct}{\lstinline[mathescape=false,backgroundcolor=\color{white},basicstyle={\sffamily\upshape}]}
+% In-line code (latex enabled)
+% Use this only in special situations where \ct does not work
+% (within section headings ...):
+\newcommand{\lct}[1]{{\textsf{\textup{#1}}}}
+% Code environments
+\lstnewenvironment{code}{%
+	\lstset{%
+		% frame=lines,
+		frame=single,
+		framerule=0pt,
+		mathescape=false
+	}
+}{}
+
+% Useful to add a matching $ after code containing a $
+% \def\ignoredollar#1{}
+%=============================================================
+\newcommand{\ie}{\emph{i.e.}\xspace}
+\newcommand{\eg}{\emph{e.g.}\xspace}
+\newcommand{\etal}{\emph{et al.}\xspace}
+% ============================================================

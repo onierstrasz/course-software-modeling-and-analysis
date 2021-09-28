@@ -1,0 +1,177 @@
+\documentclass [11pt, a4wide, twoside]{article}
+
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{ifthen}
+\usepackage{xspace}
+\usepackage{fancyhdr}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true
+  tabsize=3
+}
+
+\newboolean{showsolution}
+\setboolean{showsolution}{true} 
+
+\input{../include}
+\definecolor{mircolor}{rgb}{0.4,0.6,0.2}
+\newcommand\ml[1]{\nbc{ML}{#1}{mircolor}}
+\usepackage{wasysym}
+\newcommand\yesml[1]{\nbc{ML {\textcolor{yellow}\sun}}{#1}{mircolor}}
+
+\begin{document}
+
+\section*{\ifthenelse{\boolean{showsolution}}{\textcolor{red}{Solution}\\}{}Assignment 05 --- 14.10.2020 -- v1.0\\Moldable Development}
+
+\textcolor{red}{Please submit this exercise by email to \href{mailto:pascal.gadient@inf.unibe.ch}{pascal.gadient@inf.unibe.ch} \underline{before} 21 October 2020, 10:15am.}
+
+\subsection*{Exercise 1 - General questions (2 pts)}
+\begin{enumerate}[i)]
+\item Is code reading a problem? Justify your answer.
+\solution{Yes, the task ``code reading'' represents a serious problem. According to various surveys, performed in a plethora of different companies, developers spend on average around 50+\% of their work time on code reading. Developers specifically exposed to 3rd party code even invest up to 90+\% of their time in understanding other's source code. Code reading is not just about reading the code, it's rather about understanding the implementation, the environment, and the architecture of a software project. Because the level of complexity in modern technology increases continuously, it's only a logical consequence that people spend significantly more time on understanding software.\\
+That's why it is tremendously important to reduce the time required to gather the desired knowledge about a system. In an optimal environment the system should be very tangible; easy to inspect, as well as easy to access and interact with.}
+\item Give an example (does not have to be from software) where a custom tool improved productivity by addressing a problem. Which tool did you choose, what is the addressed problem, and how did the tool improve productivity?
+\solution{There exist many tools that help developers increasing the productivity:
+\begin{itemize}
+\item \textit{Status indicators}: Status indicators exist in different flavors increasing the awareness of a project or system state. In other words, they raise the overall focus on a specific aspect of a product. This increases the productivity, since real threats can be understood and tackled immediately. These indicators can be implemented in custom software that notify developers of finished or failed build processes, as audible notifications by playing a custom jingle in case of application errors, or as hard-plastic \textit{Maneki-neko} implementation that resides near the entrance reminding people passing by of the current state of a project.
+\item \textit{IDE support}: Tools in IDEs, often referred to as plug-ins, support developers while writing code. They offer diverse help: some of them support developers in writing secure code, while others check for spelling errors, or introduce conformance checks mandatory to pass for a successful software release. They are usually heavily customizable.
+\item \textit{Time scheduling}: Traditional (offline) time tables and custom online calendars ease proper time planning as they are key factors with respect to productivity. With a tight schedule that is hardly to overcome, the stress level of employees increases and as a result the productivity will decrease substantially in the long-term. Hence, this customized tool and its correct use provide much value to any project.
+\item \textit{DIY tools}: There exist numerous different tools that greatly increase the productivity for any mechanic: custom hammers, saws, screwdrivers, levers, \textit{etc.}
+\end{itemize}}
+\end{enumerate}
+
+\subsection*{Exercise 2 - Inspector extensions (4 pts)}
+\begin{enumerate}[i)]
+%\item What is the main difference between extensions of the old and the new inspector?
+%\solution{The old extensions make use of the \texttt{\textless~gtView~\textgreater} pragma instead of the \newline\texttt{\textless~gtInspectorPresentationOrder~\textgreater} pragma.}
+\item The GT inspector displays views from methods that contain the pragma \textless gtView\textgreater. How many classes in Pharo can visualize themselves, because they contain at least one method with that pragma? Provide your implementation.
+\solution{There exist 547 classes with support for GT inspector visualizations.\\\newline
+\texttt{results := Set new.\\
+\#gtView gtPragmas do: [ :method |\\
+\hspace*{0.5cm}results add: (method classBinding value name)].\\
+results sorted: [:a :b | a \textless~b].}}
+\item Improve the \texttt{DateAndTime} class so that the GT inspector can visualize the date and time of such objects within a new view called ``Human Readable''.\\\\The view must use the following format: 
+\texttt{YYYY-MM-DD HH:MM}
+\solution{\texttt{DateAndTime\textgreater\textgreater gtHumanReadableFor: aView\\
+\hspace*{0.5cm}\textless gtView\textgreater\\
+\hspace*{0.5cm}\caret~aView textEditor\\
+\hspace*{1.5cm}title: \textquotesingle Human Readable\textquotesingle;\\
+\hspace*{1.5cm}text: [self asStringYMDHM]}}
+\end{enumerate}
+
+\ifthenelse{\boolean{showsolution}}{\vspace{1.5cm}\begin{center}\center{\large{\emph{\textbf{Please continue reading on the next page.}}}\newpage}{}\end{center}}
+
+\subsection*{Exercise 3 - Live documents (4 pts)}
+\begin{enumerate}[i)]
+\item What are the supported annotation names in live documents? In other words, which annotation names can you use in your live document code?\\\\
+\emph{NB: Annotation names prefix live document code snippets. For example, \texttt{\$\{class:Object\}\$} contains the annotation name \texttt{class} which tells the live document to use the appropriate visualization for classes.}
+\solution{You can find hints to all annotation name implementations in the class \texttt{GtDocumentConstants}. Each method name that ends with \texttt{AnnotationName} describes an annotation name. Currently, there are 11 annotation names supported: \texttt{changes}, \texttt{class}, \texttt{example}, \texttt{examples}, \texttt{explanation}, \texttt{icebergFile}, \texttt{inputFile}, \texttt{method}, \texttt{parametrizedExample}, \texttt{slides}, and \texttt{xdocList}.\\\\
+\texttt{annotationNameSelectors := OrderedCollection new.\\
+allSelectors := GtDocumentConstants class selectors.\\
+allSelectors do: [:each | (each endsWith: \textquotesingle AnnotationName\textquotesingle)\\
+\hspace*{0.5cm}ifTrue: [annotationNameSelectors add:\\
+\hspace*{1.0cm}(each gtRemoveSuffix: \textquotesingle AnnotationName\textquotesingle) ]].\\
+annotationNameSelectors sort: [:a :b | a \textless~b].}}
+\item Create a live document that always shows the current number of classes available in Pharo. You have to provide the live document code *and* its implementation. Your live document should look like this:\\\\
+I consist of \texttt{18605} classes.\\\\
+Step 1:\\
+Create a method (using the correct pragma) that returns all classes. You are allowed to augment existing classes in GT.\\\\
+Step 2:\\
+Reference the method in your live document code.
+\solution{Live document code:\\
+\texttt{I consist of \$\{example:BaselineOfGToolkit\textgreater\textgreater\#allClasses|label=\#size\}\$ classes.}\\\\
+Code in \texttt{BaselineOfGToolkit\textgreater\textgreater\#allClasses}:\\
+\texttt{allClasses\\
+\textless gtExample\textgreater\\
+\caret~SystemNavigation default allClasses}}
+\end{enumerate}
+
+
+% \subsection*{Exercise 4 - BONUS (10 pts, each 2 pts)}
+% \begin{enumerate}[i)]
+% \item When is it interesting to have custom views for an object? Why (if at all)?
+% \solution{Any answer would work here except that custom views are not interesting to have. Custom views support developers with information tailored to their needs, which substantially improves productivity.}
+% \item How many GT inspector extensions use a \texttt{columnedList}?\\\\
+% \emph{NB: Take a look at the ``Querying Code'' slideshow from the GT main screen.}
+% \solution{Currently, there exist 193 columnedList inspector extensions in GT:\\\texttt{(\#gtView gtPragmas \& \#columnedList gtReferences) size}}
+% \item Given the CallGraph code accessible with:\\
+% \texttt{\hspace*{0.5cm}Metacello new\\
+% \hspace*{0.5cm}baseline: \textquotesingle SMAForGt\textquotesingle;\\
+% \hspace*{0.5cm}repository: \textquotesingle github://onierstrasz/sma-examples/src\textquotesingle ;\\
+% \hspace*{0.5cm}load.}\\
+% Create custom views to list the methods, classes, and calls of a \texttt{CallGraph}.\\\\
+% \emph{NB: Take inspiration from the ``Inspector Views'' slideshow from GT's main screen. A list view does not work with dictionaries, but only with regular collections, like \texttt{Set} or \texttt{OrderedCollection}. Try to implement the views in the inspector using the ``Meta tab''.}
+% \solution{\texttt{CallGraph\textgreater\textgreater gtMethodsFor: aView\\
+% \textless gtView\textgreater\\
+% \^{} aView list\\
+% \hspace*{0.5cm}title: \textquotesingle Methods\textquotesingle ;\\
+% \hspace*{0.5cm}items: [ methods values ]\\\\
+% CallGraph\textgreater\textgreater gtClassesFor: aView\\
+% \textless gtView\textgreater\\
+% \^{} aView list\\
+% \hspace*{0.5cm}title: \textquotesingle Classes\textquotesingle ;\\
+% \hspace*{0.5cm}items: [ classes values ]\\\\
+% CallGraph\textgreater\textgreater gtCallsFor: aView\\
+% \textless gtView\textgreater\\
+% \^{} aView list\\
+% \hspace*{0.5cm}title: \textquotesingle Calls\textquotesingle ;\\
+% \hspace*{0.5cm}items: [ calls ]}}
+% \item Consider the \texttt{CallGraph} code from the previous exercise. For a \texttt{JMethod}, create a custom view showing a columned list of all called methods with three columns:
+% \begin{enumerate}[(i)]
+% \item the first column shows the class name of the called method,
+% \item the second column shows the called method name, and
+% \item the third column shows whether the method is static or not.\\\\
+% \end{enumerate}
+% \emph{NB: A useful String utility is \texttt{String\textgreater\textgreater removePrefix:}. If you need access to a variable of an object, it is advisable to do it via a public accessor. If it does not exist, create it.}
+% \solution{\texttt{Call\textgreater\textgreater callee\\
+% \^{} callee\\\\
+% JClass\textgreater\textgreater name\\
+% \^{} name\\\\
+% JMethod\textgreater\textgreater owner\\
+% \^{} owner\\\\
+% JMethod\textgreater\textgreater gtCallsFor: aView\\
+% \textless gtView\textgreater\\
+% \^{} aView columnedList\\
+% \hspace*{0.5cm}title: \textquotesingle Calls\textquotesingle ;\\
+% \hspace*{0.5cm}items: [calls];\\
+% \hspace*{0.5cm}column: \textquotesingle Class\textquotesingle~text: [:aCall | aCall callee owner name ];\\
+% \hspace*{0.5cm}column: \textquotesingle Method\textquotesingle~text: [:aCall |\\
+% \hspace*{1.0cm}aCall callee name removePrefix:\\
+% \hspace*{1.5cm}(aCall callee owner name, \textquotesingle .\textquotesingle ) ];\\
+% \hspace*{0.5cm}column: \textquotesingle isStatic\textquotesingle~text: [:aCall | aCall callee isStatic ]}}
+% \item Consider the \texttt{CallGraph} code from the previous exercise. For the \texttt{CallGraph} object, add the Spotter search functionality to GT inspector with support for \texttt{JMethods}. Your goal is to have a working Spotter search icon at the top right of GT inspector windows that investigate \texttt{CallGraph} objects. You can find working implementations in other classes that support searches such as the class \texttt{Class}.\\\\
+% \emph{NB: Please take a look at the ``Spotter'' slideshow from GT's main screen for an overview of how Spotter works.}
+% \solution{\texttt{CallGraph\textgreater\textgreater gtSpotterForMethodsFor: aStep\\
+% \textless gtSearch\textgreater\\
+% aStep listProcessor\\
+% \hspace*{0.5cm}priority: 1;\\
+% \hspace*{0.5cm}items: [ methods ];\\
+% \hspace*{0.5cm}title: \textquotesingle Methods\textquotesingle ;\\
+% \hspace*{0.5cm}filter: GtFilterSubstring}}
+% \end{enumerate}
+
+\end{document}

@@ -1,0 +1,1 @@
+A Call instance represents a method invocation within a CallGraph

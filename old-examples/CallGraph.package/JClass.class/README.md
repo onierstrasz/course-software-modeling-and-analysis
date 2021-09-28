@@ -1,0 +1,1 @@
+Represents a Java class within a CallGraph

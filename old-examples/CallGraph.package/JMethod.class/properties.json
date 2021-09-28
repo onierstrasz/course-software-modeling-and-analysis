@@ -1,0 +1,18 @@
+{
+	"category" : "CallGraph",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "onierstrasz 8/17/2016 12:01",
+	"instvars" : [
+		"name",
+		"owner",
+		"calls",
+		"returnType",
+		"argTypes" ],
+	"name" : "JMethod",
+	"pools" : [
+		 ],
+	"super" : "Object",
+	"type" : "normal" }

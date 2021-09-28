@@ -1,0 +1,187 @@
+\documentclass [11pt, a4wide, twoside]{article}
+
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{ifthen}
+\usepackage{xspace}
+\usepackage{fancyhdr}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{graphicx}
+% \usepackage{listings}
+\usepackage{color}
+% \usepackage{enumitem}
+
+% \definecolor{dkgreen}{rgb}{0,0.6,0}
+% \definecolor{gray}{rgb}{0.5,0.5,0.5}
+% \definecolor{mauve}{rgb}{0.58,0,0.82}
+
+% \lstset{frame=tb,
+% language=Java,
+% aboveskip=3mm,
+% belowskip=3mm,
+% showstringspaces=false,
+% columns=flexible,
+% basicstyle={\small\ttfamily},
+% numbers=none,
+% numberstyle=\tiny\color{gray},
+% keywordstyle=\color{blue},
+% commentstyle=\color{dkgreen},
+% stringstyle=\color{mauve},
+% breaklines=true,
+% breakatwhitespace=true
+% tabsize=3
+% }
+
+\newboolean{showsolution}
+\setboolean{showsolution}{true} 
+
+% \newlist{todolist}{itemize}{2}
+% \setlist[todolist]{label=$\square$}
+% \usepackage{pifont}
+% \newcommand{\cmark}{\ding{51}}%
+% \newcommand{\xmark}{\ding{55}}%
+% \newcommand{\done}{\rlap{$\square$}{\raisebox{2pt}{\large\hspace{1pt}\cmark}}%
+% \hspace{-2.5pt}}
+% \newcommand{\wontfix}{\rlap{$\square$}{\large\hspace{1pt}\xmark}}
+
+
+\input{../include}
+% \definecolor{mircolor}{rgb}{0.4,0.6,0.2}
+% \newcommand\ml[1]{\nbc{ML}{#1}{mircolor}}
+% \usepackage{wasysym}
+% \newcommand\yesml[1]{\nbc{ML {\textcolor{yellow}\sun}}{#1}{mircolor}}
+
+\begin{document}
+
+\section*{\ifthenelse{\boolean{showsolution}}{\textcolor{red}{Solution}\\}{}Assignment 11 --- 25.11.2020 -- v1.2\\Querying the Class Hierarchy}
+
+\textcolor{red}{Please submit this exercise by mail to \href{mailto:pascal.gadient@inf.unibe.ch}{pascal.gadient@inf.unibe.ch} \underline{before} 02. December 2020, 10:15am.\begin{center}\textbf{You must submit your code as editable text, i.e., use plain text file(s).}\end{center}}
+
+% Demo for nice markings
+% \subsection*{Exercise 1: General Knowledge (4 Points)}
+% \begin{itemize}
+% \item Does correlation imply causality?
+% \begin{todolist}
+% \item[\wontfix] No.
+% \item[\done] Yes.
+% \end{todolist}
+% \end{itemize}
+
+% \ifthenelse{\boolean{showsolution}}{\item[\done]}{\item}
+
+\noindent In order to perform this assignment, you must import ``Project Analyzer'' and ``Hierarchy Analyzer'' from Github. You can do that in GT with just few steps. First, click on the ``Git'' button on the main screen. Next, click on the ``+'' sign at the top right, just next to the button ``Fetch All''. In the overlay view, click on ``clone'' and then enter the URL below into the text field.\\\texttt{https://github.com/poojaruhal/sma2020.git}\\
+Next, click on ``Clone'', then double-click on the value ``sma2020'' that should now appear in the list. In the upcoming view on the right hand side, please click on all three ``Load'' buttons. You successfully completed the clone of the repository when you see ``Up to date'' for every package. Once again, we recommend to save your image when you finished the clone process.
+
+\subsection*{Exercise 1: Exploring projects (3 pts)}
+In GT, a project does not have a clear structure, but instead it consists of multiple packages. In this exercise, we will work on an easy to use project explorer that can present all the packages or classes of a project.\\
+
+\noindent \textit{NB:
+\begin{itemize}
+\item GT follows the convention that all package names with the same base name (\ie prefix) belong to the same project. For example, packages related to the project \texttt{Collection} start with the prefix ``Collection'', \eg \texttt{Collections\-Abstract}, \texttt{Collections\-Stack}, etc.
+\item We define a ``package group'' as a list of one or more packages that use the same base name.
+\end{itemize}}
+
+\begin{enumerate}[a)]
+\item Describe the steps required to add an extension method. You can find an example in the Github repository you just cloned.
+\solution{\texttt{GT}:
+\begin{enumerate}[i)]
+\item Open a class whom behavior you want to extend in \emph{Calypso}.
+\item Add the extension method in the class.
+\item In the category, input the character ``*'' and the name of your package. 
+\item You can also select your target package from the dropdown list.
+\end{enumerate}
+\texttt{Pharo}:
+\begin{enumerate}[i)]
+\item Open the class whom behavior you want to extend in \emph{Calypso}.
+\item In the menu, choose ``Move to package''.
+\item Select your target package.
+\end{enumerate}
+You can also achieve that programmatically:\\
+\texttt{ExistingClass compile: \textquotesingle myMethod\textquotesingle
+\tabto{1cm} \caret~true classified: \textquotesingle \textbackslash*MyPackage\textquotesingle}}
+\item How many unique projects exist in the GT image? The class \texttt{RPackageOrganizer} can assist you with this task.
+\solution{\texttt{allPackages :=\\
+\tabto{1cm}RPackageOrganizer default packages\\
+\tabto{2cm}collect: \#packageGroup.\\
+\tabto{1cm}\caret~allPackages asSet.}}
+\item Collect all packages of the \texttt{Collections} project. The extension method \texttt{packageGroup} in \texttt{RPackage} can assist you with this task.
+\solution{\texttt{allPackages := \\
+\tabto{1cm}RPackageOrganizer default packages \\
+\tabto{2cm}select: [ :e \textbar~e packageGroup match: \textquotesingle Collections\textquotesingle ].\\
+\tabto{1cm}\caret~allPackages asSet.}}
+\end{enumerate}
+
+\subsection*{Exercise 2: Exploring hierarchies (7 pts)}
+A very common task in static code analysis is to fetch information about the inheritance relation between different classes. This requires the traversal of subclasses and superclasses, and the computation of hierarchy depth for each class. %, \ie an integer number that represents particular hierarchy level such as level 1 or level 5.
+In this exercise, you have to map the GT class hierarchy to the project structure as discussed in the lecture.
+You are supposed to consider the \texttt{Object} class as root of all hierarchies, because all classes inherit from \texttt{Object}.
+
+\begin{enumerate}[a)]
+\item Calculate the class hierarchy depth of the \texttt{Collection} class.\\
+\solution{The hierarchy depth is 2.\\\\You can retrieve that number with: \texttt{Collection classDepth - 1.}}
+
+\item Does the superclass of \texttt{HashedCollection} reside in the same package? You can use the extension method \texttt{isSuperclassInAnotherPackage} in \texttt{Class} from the Github repository.
+\solution{Yes, because the statement below returns \texttt{false}. You can easily validate that with the class view in GT.\\\texttt{HashedCollection isSuperclassInAnotherPackage.}}
+
+\item Do the subclasses of \texttt{HashedCollection} reside in the same package? You can use the extension method \texttt{isSubclassesInAnotherPackage} in \texttt{Class}  from the Github repository.
+\solution{No, because the statement below returns \texttt{true}. You can easily validate that with the class view in GT.\\\texttt{HashedCollection isSubclassesInAnotherPackage.}}
+
+\item Calculate the depth of \texttt{Collection} in the package hierarchy. You can use the message implementation \texttt{HA\_ClassExplorer calculatePackageLevel} from the Github repository.
+\solution {The package hierarchy depth is 1.\\
+\texttt{(HA\_ClassExplorer asExplorerClass: Collection) calculatePackageLevel.}}
+
+\item Add reasonable class comments to the classes \texttt{HA\_ClassExplorer} and \texttt{PA\_ProjectExplorer}. With the help of your comments, ensure the classes will be understood by other developers.\\\\
+\emph{NB: You can refer to the Pharo class comment template shown in the lecture, however you are not required to. You should write just about the information you believe is necessary to understand the class.}\\
+\solution{ %Describe intent, responsibility of the class, examples of the class
+\texttt{Class: HA\_ClassExplorer\\\\
+I represent a class explorer.\\\\
+Responsibility:\\
+I am responsible for exploring a class hierarchy in a package scope.\\
+I know the package level.\\\\
+Public API and key messages:\\
+\#calculatePackageLevel\\
+I compute the hierarchy level of a class.\\
+\#asExplorerClass: aClass\\
+I return the explorer instance of the given class.\\
+\#isRootClassInPackage: aClass\\
+I can tell if a class is a root class in the package.\\\\
+InstanceVariables\\
+\textless packageLevel\textgreater~package level of a class.\\\\
+Example use:\\
+HA\_ClassExplorer asExplorerClass: HashedCollection.\\\\\\
+Class: PA\_ProjectExplorer\\\\
+I represent a project explorer.\\\\
+Responsibility:\\
+I am responsible for exploring the class hierarchy in a project scope.\\
+A project is composed of various packages starting with same prefix.\\ 
+Each package has various classes in it.\\\\
+Public API and key messages:\\
+\#classes\\
+I return all the classes available in a project.\\\\
+InstanceVariables\\
+\textless packages\textgreater~all packages in the project.%\\\\
+%What I am missing:\\
+%To calcuate root, leaf, or intermediate classes, I would need APIs similar to those found in HA\_class\_explorer.
+}}
+
+\item In this task, you are supposed to implement the method \texttt{calculatePro\-jectLevel} in the class \texttt{HA\_ClassExplorer}. %The method should behave like their corresponding implementation in \texttt{PA\_ProjectExplorer}, except that they should work for classes instead of projects.
+\solution{ 
+% \underline{Changes in Class}
+% %\vspace*{-0.75cm}
+% \begin{enumerate}[i)]
+% \item Add the extension method \texttt{project} to know the project the class belongs to.
+% \item Add the extension method \texttt{isSuperclassInAnotherProject} and \\\texttt{isSubclassesInAnotherProject} to \texttt{HA\_ClassExplorer}. 
+% \end{enumerate}
+% \underline{Changes in PA\_ProjectExplorer}\\\\
+% Complete the methods \texttt{classes} and \texttt{packages} to gather the classes and packages of a project.\\\\
+% \underline{Changes in HA\_ClassExplorer}
+% \begin{enumerate}[i)]
+% \item Complete the method \texttt{calculatePackageLevel} by collecting the packageLevel of the superclass.
+% \item Add methods related to \texttt{projectLevel} and \texttt{calculateProjectLevel} to compute the level of a class in the project.
+% \end{enumerate}
+Please refer to the repository (\href{https://github.com/poojaruhal/sma2020}{here}) where you can find the detailed solution.}
+\end{enumerate}
+
+\end{document}

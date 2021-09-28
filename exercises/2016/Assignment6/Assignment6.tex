@@ -1,0 +1,83 @@
+\documentclass [11pt, a4wide, twoside]{article}
+
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{ifthen}
+\usepackage{xspace}
+\usepackage{fancyhdr}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true
+  tabsize=3
+}
+
+% solution switch
+\newboolean{showsolution}
+\setboolean{showsolution}{false} 
+%\setboolean{showsolution}{false} 
+
+\input{../include}
+\definecolor{mircolor}{rgb}{0.4,0.6,0.2}
+\newcommand\ml[1]{\nbc{ML}{#1}{mircolor}}
+\usepackage{wasysym}
+\newcommand\yesml[1]{\nbc{ML {\textcolor{yellow}\sun}}{#1}{mircolor}}
+
+\begin{document}
+
+% title
+\section*{\ifthenelse{\boolean{showsolution}}{Solution }{}Smalltalk: Software Visualization}
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Please submit this exercise to the git repository before 10h15, November 1, 2016.
+
+\subsection*{Exercise 1: Using Roassal API build a visualization to analyze Tomcat's class hierarchy.}
+
+Build a visualization that uses a Treemap to depict class hierarchy and that maps to the area of the tiles the number of lines of code of the class they represent. Use two different colors to identify the classes that contain deprecated methods and the ones that might be tests. \\ \\
+Hints: \\
+(1) you can assume that the name of test classes contain the Test word. \\
+(2) Include in the visualization stubs of the Java core and libs classes (\eg \ct{Object}).\\ 
+(3) Notice that the model of the methods of a class contains its annotations.\\ \\
+Note: Download Tomcat's \href{http://scg.unibe.ch/download/merino/roassal-tutorial/tomcat-7.0.2.mse}{model} and \href{http://scg.unibe.ch/download/merino/roassal-tutorial/tomcat-7.0.2-src.zip}{sources}. \\
+
+\includegraphics[scale=0.34]{images/treemap.png}
+
+\subsection*{Exercise 2:}
+Polymetric Views provides insights of the various aspects of a software by mapping multiple metrics to the attributes of rectangles that represent software entities (\eg classes). In this exercise you have to create a visualization that maps Tomcat classes to rectangles. \\
+Each rectangle has to encode: \\
+(1) the \#hierarchyNestingLevel in its height\\ 
+(2) the \#numberOfAttributes to its width \\
+(3) \#fanOut in its color; and the x-position of rectangles must encode \#fanOut and y-position =\#fanIn. \\
+The resulting visualization should look like the one below. Analysis of the visualization and highlight insights that you found. \\
+Hint: How fanOut relates to other metrics?
+
+\vspace{1cm}
+
+\includegraphics[scale=0.3]{images/scatter-plot.png}
+
+\subsection*{}
+Note: For the exercises, {\em file out} the appropriate source code and commit the .st file to the git repository on \href{https://bitbucket.org}{https://bitbucket.org}.
+\end{document}

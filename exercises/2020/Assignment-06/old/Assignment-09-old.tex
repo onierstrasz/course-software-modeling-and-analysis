@@ -1,0 +1,89 @@
+\documentclass [11pt, a4wide, twoside]{article}
+
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{ifthen}
+\usepackage{xspace}
+\usepackage{fancyhdr}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true
+  tabsize=3
+}
+
+\newboolean{showsolution}
+\setboolean{showsolution}{false} 
+
+\input{../include}
+\definecolor{mircolor}{rgb}{0.4,0.6,0.2}
+\newcommand\ml[1]{\nbc{ML}{#1}{mircolor}}
+\usepackage{wasysym}
+\newcommand\yesml[1]{\nbc{ML {\textcolor{yellow}\sun}}{#1}{mircolor}}
+
+\begin{document}
+
+\section*{\ifthenelse{\boolean{showsolution}}{\textcolor{red}{Solution}\\}{}Assignment 09 --- 14/11/2018 -- v1.0\\Smalltalk: Software Visualization}
+
+\textcolor{red}{Please submit this exercise by mail to \href{mailto:sma@list.inf.unibe.ch}{sma@list.inf.unibe.ch} \underline{before} 21 November 2018, 10:15am, and \textbf{use the \textit{file out} feature in the \textit{System Browser} to export the Smalltalk classes you created.}}
+
+\subsection*{Exercise 1: Tomcat class hierarchy visualization with Roassal (5 Points)}
+
+Build a visualization that uses a Treemap to depict the class hierarchy.
+Each tile is supposed to represent a class. The size of the tile should reflect the number of lines of code.
+You should use three different colors for the tiles: blue for classes that contain deprecated methods, green for test classes, and grey (the default color) for all remaining classes.\\
+You can download Tomcat's model file \href{http://scg.unibe.ch/download/lectures/sma-exercises/A09E01.mse}{here}, and (optionally, if desired) the sources \href{http://scg.unibe.ch/download/lectures/sma-exercises/A09E01_src.zip}{here}.\\\\
+\textit{Hints:
+\begin{enumerate}[i)]
+\item You can assume that the name of the test classes contains the term ``Test''
+\item Your visualization should include stubs of the Java core and the library classes (\eg \texttt{Object})
+\item Be aware that the class method model contains annotations
+\item Your resulting visualization should be identical to the one below
+\end{enumerate}}
+
+\includegraphics[scale=0.34]{images/treemap.png}
+\ifthenelse{\boolean{showsolution}}{\newpage}{\newpage}
+\subsection*{Exercise 2: Polymetric views (5 Points)}
+Polymetric views nicely illustrate various software characteristics with the help of rectangles. Moreover, these views map specific metrics to the rectangles attributes. Again, each rectangle represents one class. You are supposed to create a polymetric view visualization that maps Tomcat classes to rectangles.
+Each rectangle has to respect:
+\begin{enumerate}[i)]
+\item The \#hierarchyNestingLevel has to correlate with the rectangles height
+\item The \#numberOfAttributes has to correlate with the rectangles width
+\item \#fanOut has to correlate with the rectangles color
+\item The x-position of a rectangle has to encode the \#fanOut
+\item The y-position of a rectangle has to encode the \#fanIn
+\end{enumerate}
+
+\subsection*{Your tasks:}
+\begin{enumerate}[i)]
+\item Create a polymetric view according to our specification (the resulting visualization should be identical to the one below)
+\item Provide a brief analysis of the visualization \textit{\underline{and}} highlight insights that you found, e.g., how does \#fanOut relate to other metrics?
+\end{enumerate}
+
+\vspace{1cm}
+
+\includegraphics[scale=0.3]{images/scatter-plot.png}
+
+\end{document}

@@ -1,0 +1,8 @@
+|p|
+p := Pen new.
+p color: Color red.
+p up; goto: 200@200.
+p down; goto: 100@200;
+	goto: 200@300; goto: 200@ 200.
+p inspect.
+p browse.

@@ -1,0 +1,1 @@
+This class models a call graph that  has been reconstructed from a Javassist run-time log.

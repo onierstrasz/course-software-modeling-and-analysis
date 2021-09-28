@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/batik-1.5-fop-0.20-5.jar"/>
+	<classpathentry kind="lib" path="lib/batik-svggen-1.7.jar"/>
+	<classpathentry kind="lib" path="lib/jdo2-api-2.3-eb.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

@@ -1,0 +1,90 @@
+\documentclass [11pt, a4wide, twoside]{article}
+
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{ifthen}
+\usepackage{xspace}
+\usepackage{fancyhdr}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true
+  tabsize=3
+}
+
+% solution switch
+\newboolean{showsolution}
+\setboolean{showsolution}{false} 
+%\setboolean{showsolution}{false} 
+
+\input{../include}
+\definecolor{mircolor}{rgb}{0.4,0.6,0.2}
+\newcommand\ml[1]{\nbc{ML}{#1}{mircolor}}
+\usepackage{wasysym}
+\newcommand\yesml[1]{\nbc{ML {\textcolor{yellow}\sun}}{#1}{mircolor}}
+
+\begin{document}
+
+% title
+\section*{\ifthenelse{\boolean{showsolution}}{Solution }{}Smalltalk: Reflection}
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Please submit this exercise to the git repository before 10h15, October 18, 2016.
+Don't forget to register on \href{https://piazza.com/unibe.ch/fall2016/sma21045}{piazza.com}.
+Also \href{https://www-academia.unine.ch/imoniteur_pbol/PORTAL3S.htm}{register for the course} by Oct 14!
+
+\subsection*{Exercise 1}
+Write a method that finds all the abstract methods in the Pharo programming environment.
+
+\subsection*{Exercise 2}
+Write a method to find all the methods that override an abstract method in the Pharo system.
+
+\subsection*{Exercise 3}
+Write a method that finds the all the classes in Pharo environment with at least one query method.\\ \\
+\textbf{Note:} Query methods are those that test a property of an object, \eg having a selector with the prefix ``\ct{is}", ``\ct{was}" or ``\ct{will}".
+
+\subsection*{Exercise 4}
+Find all the ``root" methods in the Pharo image. A ``root" method is a method with the selector implemented in a class, such that the superclass of that class does not understand it.
+
+\subsection*{Exercise 4}
+Based on the code from the lecture and exercise (\href{http://scg.unibe.ch/download/lectures/sma/Demos/CallGraphDemo/CallGraph-5.st}{CallGraph-5.st}, \href{http://scg.unibe.ch/download/lectures/sma/Demos/CallGraphDemo/Calls.txt}{Calls.txt}), do the following exercise:
+
+By redefining the method \ct{Call>>>#doesNotUnderstand:} dynamically add the instance variable \\ \ct{numberOfArguments} to the class \ct{Call}, and the method
+\begin{code}
+Call>>#numberOfArguments
+	numberOfArguments := args size.
+	^ numberOfArguments
+\end{code}
+ and by executing the code
+\begin{code}
+(CallGraph fromFile: 'Calls.txt') calls collect: [ :each | each numberOfArguments] 
+\end{code}
+print the number of arguments for every call in the call graph.
+
+
+\subsection*{}
+Note: For the exercises, {\em file out} the appropriate source code and commit the .st file to the git repository on \href{https://bitbucket.org}{https://bitbucket.org}.
+\end{document}

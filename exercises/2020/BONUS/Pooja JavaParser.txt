@@ -1,0 +1,20 @@
+javaFile := './T1Preprocessor.java' asFileReference.
+ast := JavaParser parse: javaFile contents.
+visitor := JavaProgramNodeVisitor new.
+result := OrderedCollection new.
+ast withAllNodesDo: [:e |  
+((e acceptVisitor: visitor) isKindOf: JavaMethodDeclarationNode) 
+ifTrue: [
+	e throws isNotNil ifTrue: [
+		(result add: e throws classTypes)
+		]
+]].
+result.
+
+
+
+
+
+another task:
+identify variable declaration node from modelWeka
+intraprocedural

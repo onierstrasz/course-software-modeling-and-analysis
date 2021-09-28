@@ -1,0 +1,1 @@
+A JMethod represents a Java method in a Java CallGraph. (NB: the calss Method already exists in the system.)

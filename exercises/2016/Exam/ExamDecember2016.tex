@@ -1,0 +1,144 @@
+\documentclass [11pt, a4wide, twoside]{article}
+
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{ifthen}
+\usepackage{xspace}
+\usepackage{fancyhdr}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[top=0.1mm, bottom=0.1mm, left=0.1mm, right=0.1mm]{geometry}
+\usepackage{array}
+
+\newcolumntype{C}{>{\centering\arraybackslash}m{0.12\textwidth}}
+\newcolumntype{F}{>{\centering\arraybackslash}m{0.16\textwidth}}
+
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+
+\graphicspath{{./figures/}}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=0.3mm,
+  belowskip=0.3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true
+  tabsize=3
+}
+
+
+% solution switch
+\newboolean{showsolution}
+\setboolean{showsolution}{false} 
+%\setboolean{showsolution}{false} 
+
+\input{../include}
+
+\begin{document}
+
+% title
+\section*{\ifthenelse{\boolean{showsolution}}{Solution }{}Final Exam, 21. 12. 2016.}
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\subsection*{Name: \\ Immatriculation number:}
+
+\subsection*{Exercise 1}
+What is the difference between reflection and reification? 
+\vspace{4cm}
+
+\subsection*{Exercise 2}
+What is the difference between an instance variable, a class variable and an instance variable on the class side in Smalltalk?
+
+\vspace{4cm}
+
+\subsection*{Exercise 3}
+What is the difference between \lct{CallGraph} and \lct{CallGraph class}? What is the result of the execution of code snippet \lct{Object newAnonymousSubclass class} in Pharo?
+\vspace{4cm}
+
+\newpage
+
+\subsection*{Exercise 4}
+What is similar and what is different between \lct{self} and \lct{super} in Smalltalk?
+\vspace{4cm}
+
+\subsection*{Exercise 5}
+How would you intercept every invocation of the method \ct{String>>>#,} in Smalltalk so it would print the concatenation result to the \ct{Transcript}? For example, the following code should print " Modeling Analysis Exam" to the \ct{Transcript}.
+\begin{lstlisting}
+title := 'Software', ' Modeling', ' Analysis'.
+title := title substrings collect: #first.
+title := title joinUsing: ''.
+title := title, ' Exam'
+\end{lstlisting}
+\vspace{4cm}
+
+\subsection*{Exercise 6}
+What are the Data Classes and how does the Data Class detection strategy work?
+\vspace{4cm}
+
+
+
+\subsection*{Name: \\ Immatriculation number:}
+
+\subsection*{Exercise 7}
+The following polymetric view visualizes a part of the Argo UML project. Classes are represented by rectangles, and inheritance is represented by the edges between classes with subclasses positioned below their superclass. The width of the rectangles represents the number of attributes of a class, height corresponds to the number of methods, and the rectangles with a darker fill color represent classes with a higher number of lines of code. Look at the diagram and derive some most outstanding features/anti-patterns about the hierarchies \textbf{A}, and \textbf{B} and the classes \textbf{C}, and \textbf{D}.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.9\textwidth]{argo-viz}
+\end{figure}
+\begin{enumerate}[label=(\Alph*)]
+\item 
+\item \vspace{1cm}
+\item \vspace{1cm}
+\item \vspace{1cm}
+\end{enumerate}
+\vspace{1cm}
+
+\subsection*{Exercise 8}
+What is the difference between coupling and cohesion?
+\vspace{4cm}
+
+\subsection*{Exercise 9}
+What is the relation between source code change metrics and bugs in the software system?
+\vspace{4cm}
+
+\subsection*{Exercise 10}
+How can dynamic analysis be performed? What are the limitations of static analysis?
+\vspace{4cm}
+
+\newpage
+\subsection*{Name: \\ Immatriculation number:}
+\subsection*{Exercise 11}
+Imagine that the boss of your software company wants to add code review to the development workflow of your team and asks you to look up the available tools. You found Microsoft's CodeFlow, Collaborator of SmartBear, Facebook's Differential, and Gerrit developed by Google. You assemble the following table with the features of these tools:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lCCCFC}
+             & Diff for Images & Grouping of Reviewers & Review Watchers & Commenting on any Selection  & OSS License \\ \hline
+CodeFlow     & \textbf{}       & \textbf{}             & \textbf{}       & \textbf{X}                   & \textbf{}   \\ \hline
+Collaborator & \textbf{X}      & \textbf{X}            & \textbf{X}      & \textbf{}                    & \textbf{}   \\ \hline
+Differential & \textbf{}       & \textbf{}             & \textbf{X}      & \textbf{}                    & \textbf{X}  \\ \hline
+Gerrit       & \textbf{X}      & \textbf{}             & \textbf{X}      & \textbf{X}                   & \textbf{X}  \\ \hline
+\end{tabular}
+\end{table}
+
+To have a good overview of all the tools and their features, you have to draw a concept lattice. Also your boss likes to be aware of everything that is happening and to put her two cents in technical questions. That's why she wants a tool that supports \emph{Review Watchers} and \emph{Commenting on any Selection}. If there is a tool that has both features, she will be interested to know what other features it has. This is why you have to compute the closure of \{Review Watchers, Commenting on any Selection\}
+
+
+
+\end{document}

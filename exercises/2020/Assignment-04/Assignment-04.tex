@@ -1,0 +1,134 @@
+\documentclass [11pt, a4wide, twoside]{article}
+
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{ifthen}
+\usepackage{xspace}
+\usepackage{fancyhdr}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true
+  tabsize=3
+}
+
+% solution switch
+\newboolean{showsolution}
+\setboolean{showsolution}{false} 
+
+\input{../include}
+\definecolor{mircolor}{rgb}{0.4,0.6,0.2}
+\newcommand\ml[1]{\nbc{ML}{#1}{mircolor}}
+\usepackage{wasysym}
+\newcommand\yesml[1]{\nbc{ML {\textcolor{yellow}\sun}}{#1}{mircolor}}
+
+\begin{document}
+\section*{\ifthenelse{\boolean{showsolution}}{\textcolor{red}{Solution}\\}{}Assignment 04 --- 07.10.2020-- v1.0b\\Smalltalk: Reflection}
+
+\textcolor{red}{Please submit this assignment by email to \href{mailto:pascal.gadient@inf.unibe.ch}{pascal.gadient@inf.unibe.ch} \underline{before} 14. October 2020, 10:15am.}
+
+\subsection*{Exercise 1 - Hierarchy traversal (1 pt)}
+Write a method that finds the class with the longest inheritance chain among all Smalltalk classes in the GT programming environment.\\\\
+\noindent\textit{NB: To access all classes of Smalltalk, you can use \texttt{SystemNavigation default allClasses}.}
+\solution{\texttt{(((SystemNavigation default allClasses collect:\newline
+\hspace*{0.5cm}[:eachClass | eachClass -> eachClass classDepth]) sorted:\newline
+\hspace*{1.0cm}[ :a :b | a value > b value ]) asOrderedDictionary) keys first}\\\newline
+\texttt{keys first} will point to the class with the longest inheritance chain, \ie the class \texttt{PRYoutubeSemLinkTest} with a class depth of 13 elements. Please note that there exists one more class at the same hierarchy level: \texttt{PRWikipediaSemLinkTest}.}
+
+\subsection*{Exercise 2 - Method overrides (2 pts)}
+Write a method to find all methods that override an abstract method in GT.
+\solution{\texttt{(SystemNavigation default allMethods select: \#isAbstract) flatCollect:\newline
+\hspace*{0.5cm}[ :m | ((m methodClass allSubclasses flatCollect: \#methods) select:\newline
+\hspace*{1.0cm}[ :n | m selector = n selector ]) reject: \#isAbstract ]}}
+
+\subsection*{Exercise 3 - Query methods (2 pts)}
+Write a method that finds all classes with at least one query method in GT.\\\\
+\textit{NB: Query methods test a property of an object. Such methods are prefixed with \texttt{is}, \texttt{was} or \texttt{will}.}
+\solution{\texttt{SystemNavigation default allClasses select:\newline
+\hspace*{0.5cm}[ :class | class methodDict keys anySatisfy:\newline
+\hspace*{1.0cm}[ :sel | (\textquotesingle is*\textquotesingle~match: sel) | \newline
+\hspace*{1.0cm}(\textquotesingle was*\textquotesingle~match: sel) | (\textquotesingle will*\textquotesingle~match: sel)]\newline
+\hspace*{0.5cm}].}}
+
+\ifthenelse{\boolean{showsolution}}{\pagebreak}{}
+
+\subsection*{Exercise 4 - Root methods (2 pts + 2 pts BONUS)}
+\begin{enumerate}[i)]
+\item Find all root methods in GT.\\\\
+\textit{NB: A ``root method'' is a method whose selector has been implemented in a class, such that the superclasses of that class do not understand it.}
+\solution{\texttt{introducedMethods := [ :class | class superclass\newline
+\hspace*{0.5cm}ifNil: [ class methods ]\newline
+\hspace*{0.5cm}ifNotNil: [ class methods select:\newline
+\hspace*{1.0cm}[ :met | (class canUnderstand: met selector) \& \newline
+\hspace*{1.0cm}(class superclass canUnderstand: met selector) not ]]].\newline\newline
+SystemNavigation default allClasses flatCollect:\newline
+\hspace*{0.5cm}[:cl | introducedMethods value: cl].}}
+\item (BONUS) Find all duck-typed methods in GT.\\\\ 
+\textit{NB: Duck-typed methods have the same selector but are not related by inheritance.
+That is, after finding all root methods, find those with the same selector.}
+\solution{\texttt{rootMethods sort: [ :m1 : m2 | m1 selector \textless m2 selector ].\\
+rootSelectors := (rootMethods collect: \#selector).\\
+duckSelectors := (rootSelectors asBag\\
+\hspace*{0.5cm}removeAll: rootSelectors asSet; yourself) asSet.\\
+rootMethods select: [ :met | duckSelectors includes: met selector]}}
+\end{enumerate}
+
+\vspace{1.5cm}
+\begin{center}\center{\large{\emph{\textbf{Please continue reading on the next page.}}}\newpage}\end{center}
+
+\subsection*{Exercise 5 - Dynamic coding (3 pts)}
+\emph{This exercise carries on with exercise 3 of the second assignment.
+As stated before, you have to download the \texttt{CallGraph} code from Github, and you must store the \texttt{Calls.txt} file in the same folder as the GT image file.}\\\\
+Your task is to redefine the method \texttt{doesNotUnderstand: aMessage} in the provided class \texttt{Call}.
+The redefined method should \underline{dynamically} create an instance variable and a method that returns the number of arguments.
+In order to achieve that, you are supposed to follow these three steps:\\\\
+\textbf{Step 1:} Within the method, add \underline{dynamically} the instance variable \texttt{numberOfArguments} to the class \texttt{Call} if it does not already exist.\\\\
+\textbf{Step 2:} Within the method, add \underline{dynamically} the method below to the class \texttt{Call}. Since you are adding that method during run time, you must compile it from a String representation.\\\\
+\texttt{numberOfArguments\\
+numberOfArguments := args size.\\
+\caret~numberOfArguments.}\\\\
+\textbf{Step 3:} So far, the initial execution does nothing but enable the \texttt{numberOfArguments} method. Hence, we have to resend the initial message to \texttt{self}.\\\\
+You can test your implementation by executing the following code:\\\\
+\texttt{(CallGraph fromFile: \textquotesingle Calls.txt\textquotesingle) calls \\
+\hspace*{0.5cm}collect: [ :each | each numberOfArguments]}\\\\
+After you successfully implemented the \texttt{doesNotUnderstand} method, the statement will print the number of arguments for every call in the call graph (without raising a \texttt{doesNotUnderstand} error).
+
+\vspace{1.5cm}
+\ifthenelse{\boolean{showsolution}}{\begin{center}\center{\large{\emph{\textbf{Please continue reading on the next page.}}}\newpage}\end{center}}{}
+
+\solution{\texttt{doesNotUnderstand: aMessage\newline
+|messageName|\newline
+messageName := aMessage selector asString.\newline\newline
+messageName = \textquotesingle numberOfArguments\textquotesingle\newline
+ifTrue: [ \newline
+\hspace*{0.5cm}(self class allInstVarNames includes: \textquotesingle numberOfArguments\textquotesingle)\newline
+\hspace*{0.5cm}ifFalse: [ self class addInstVarNamed: \textquotesingle numberOfArguments\textquotesingle].\newline\newline
+\hspace*{0.5cm}self class compile:\newline
+\hspace*{0.5cm}messageName, String cr, \newline
+\hspace*{0.5cm}messageName, \textquotesingle~:= args size.\textquotesingle, String cr, \newline
+\hspace*{0.5cm}\textquotesingle\caret\textquotesingle, messageName, \textquotesingle .\textquotesingle .\newline\newline
+\hspace*{0.5cm}\caret~aMessage sendTo: self.\newline
+].}}
+\end{document}

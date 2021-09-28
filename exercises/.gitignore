@@ -1,0 +1,41 @@
+_*
+.DS_Store
+*/*.aux
+*/*.log
+*/*.out
+*/*.synctex.gz
+*/*.bbl
+*/*.blg
+Assignment*.pdf
+
+## Core latex/pdflatex auxiliary files:
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+*.fmt
+*.fot
+*.cb
+*.cb2
+.*.lb
+
+# subdirectories
+*/*/*.aux
+*/*/*.log
+*/*/*.out
+*/*/*.synctex.gz
+*/*/*.bbl
+*/*/*.blg
+*/*/*.fdb_latexmk
+*/*/*.fls
+
+## Build tool auxiliary files:
+*.fdb_latexmk
+*.synctex
+*.synctex(busy)
+*.synctex.gz
+*.synctex.gz(busy)
+*.pdfsync

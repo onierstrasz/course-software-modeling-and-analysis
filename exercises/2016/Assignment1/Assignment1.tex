@@ -1,0 +1,83 @@
+\documentclass [11pt, a4wide, twoside]{article}
+
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{ifthen}
+\usepackage{xspace}
+\usepackage{fancyhdr}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage{verbatim}
+
+% solution switch
+\newboolean{showsolution}
+\setboolean{showsolution}{false} 
+%\setboolean{showsolution}{false} 
+
+\input{../include}
+
+\begin{document}
+
+% title
+\section*{\ifthenelse{\boolean{showsolution}}{Solution }{}Introduction to Software Modeling and Analysis}
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Please hand this exercise in the git repository before 10h15, 27th of September.
+Don't forget to register to the \href{https://piazza.com/unibe.ch/fall2016/sma21045}{piazza.com SMA page}
+
+\subsection*{Important remarks}
+
+\begin{itemize}
+  \item Scoring scheme: Exercises 30\%,  Exam  70\%
+  \item You are expected to create a private git repository on \href{https://bitbucket.org}{https://bitbucket.org} to which the
+answers of the exercises and the code have to be committed.
+  \item The solutions of the exercises are to be delivered before Tuesday at 10h15. The commit timestamp
+will be used to determine if you delivered before the deadline or not. Solutions handed in later will
+get one grade subtracted for each 24h period (in case of serious reasons send us an e-mail).
+\end{itemize}
+
+\subsection*{How to Qualify for ECTS points}
+
+\begin{itemize}
+  \item Each series is rated according to the usual rating system with a scale from 1 to 6, with the following
+meaning:
+6 - excellent, 5 - good, 4 - sufficient, 3 - not sufficient, 2 - bad, and 1 - no solution provided.
+  \item To qualify for the ETCS points, the average mark of all series is required to be a least sufficient
+	(i.e. 4). If you are not able to do a series (military service, illness, etc.) let us know as soon as
+	possible  
+\item Please do not copy solutions from others (nor from the Internet). If you really cannot figure out
+something yourself, discuss it with us or post to the mailing list (see below). In case of copied
+solutions, you will get a mark of 1.
+\end{itemize}
+
+\subsection*{Questions and Discussions:}
+
+\begin{itemize}
+  \item For questions and discussions use piazza.com
+\end{itemize}
+
+\subsection*{Exercise 1}
+
+Download the book \href{https://ci.inria.fr/pharo-contribution/view/Books/job/UpdatedPharoByExample/lastSuccessfulBuild/artifact/book-result/UpdatedPharoByExample.pdf}{Pharo by Example}
+
+\subsection*{Exercise 2}
+
+Following the instructions in the book install and configure the Pharo environment so as to be able to solve next lecture assignments.
+
+\subsection*{Exercise 3}
+
+\begin{itemize}
+\item Explore Pharo a bit. If you want to know more, visit \href{http://files.pharo.org/mooc/}{Pharo MOOC page}.
+\end{itemize}
+
+\subsection*{Exercise 4}
+
+\begin{itemize}
+  \item Create a private git repository on \href{https://bitbucket.org}{https://bitbucket.org} named sma2016\_exercises\_yourName\_mattriculationNumber
+  \item Share it with users scg-nevena and scg-uko
+\item Send an e-mail containing your name, matriculation number and the link for cloning the repository
+to nevena@inf.unibe.ch and tymchuk@inf.unibe.ch.
+\end{itemize}
+
+
+\end{document}

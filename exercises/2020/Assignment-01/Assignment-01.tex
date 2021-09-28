@@ -1,0 +1,55 @@
+\documentclass [11pt, a4wide, twoside]{article}
+
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{ifthen}
+\usepackage{xspace}
+\usepackage{fancyhdr}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage{verbatim}
+
+% solution switch
+\newboolean{showsolution}
+\setboolean{showsolution}{true}
+
+\input{../include}
+
+\begin{document}
+\section*{\ifthenelse{\boolean{showsolution}}{\textcolor{red}{Solution}\\}{}Assignment 01  --- 16.09.2020 -- v1.0\\Introduction to Software Modeling and Analysis}
+
+\textcolor{red}{Please finish this assignment \underline{before} 23. September 2020, 10:15am.}\\
+
+\subsection*{Exercise 1 (0.5 pts)}
+Read carefully the course guideline available \href{http://scg.unibe.ch/download/lectures/sma-exercises/SMA-RulesForExercises.pdf}{here}.
+
+\subsection*{Exercise 2 (0.5 pts)}
+Download the book \href{https://ci.inria.fr/pharo-contribution/view/Books/job/UpdatedPharoByExample/lastSuccessfulBuild/artifact/book-result/UpdatedPharoByExample.pdf}{Pharo by Example}
+
+\subsection*{Exercise 3 (0.5 pts)}
+Download the latest \underline{stand-alone} release of \emph{Pharo Launcher} from \href{https://pharo.org/download}{here} and install the application. After it is successfully installed, start the application and click on ``New'' (top left). In the new window that appears, choose ``Official distributions" and ``Pharo 8.0 - 64bit (stable)'' (or the corresponding 32bit release if your CPU or OS does not support 64 bits). Click on ``Create image''. Select the newly created \emph{Pharo} entry from the list and click on ``Launch''. A new window that runs Pharo will be displayed. You should be able to solve the upcoming lecture assignments with Pharo.
+% \textit{Hint for Apple macOS users: A security warning might occur prior execution of the downloaded Pharo file.
+% Please execute this command in your terminal to resolve that issue:}\\ \newline
+% \texttt{sudo xattr -rd com.apple.quarantine Pharo6.1.app}
+
+% \subsection*{Exercise 4 (0.5 pts)}
+% \begin{itemize}
+% \item It's time to enjoy a video! Please watch \href{https://tube.switch.ch/videos/a5d4ac6e}{here} the lecture recording that will provide you a kick-start into Pharo development.
+% \item Explore Pharo and play around with it. Ask questions on Piazza.% If you want to know more, visit \href{http://files.pharo.org/mooc/}{Pharo MOOC page}.
+% \end{itemize}
+
+\subsection*{Exercise 4 (0.5 pts)}
+Skip this exercise, if you do not have a University of Bern email address (@students.unibe.ch). In that case, we have to manually invite you to Piazza.\\\\
+Otherwise, please visit
+\begin{quote}
+\url{https://piazza.com/unibe.ch/fall2020/sma2020}
+\end{quote}
+and select ``Join as: Student'' and click on the bottom of the page ``Join Classes''. On the next page, provide your university email address twice and click ``Submit Email''. You will receive a confirmation email and with the included activation link you will be able to finish the Piazza account registration. Afterwards you should be able to login and join the course. 
+
+\subsection*{Exercise 5 (3 pts)}
+\begin{itemize}
+\item Send an email containing your given name, family name, matriculation number, email address, and home university to \href{mailto:pascal.gadient@inf.unibe.ch}{pascal.gadient@inf.unibe.ch}.
+%\item \textcolor{red}{Students matriculated at the \underline{University of Bern} must register \href{https://ksl.unibe.ch/KSL/planungsansicht}{here} (needs successful login first) for the course on KSL.}
+\item Every student must register \href{https://www-academia.unine.ch/aai/imoniteur_pbol/ssoLogins.htm}{here} for the course on Academia.
+\end{itemize}
+
+\end{document}

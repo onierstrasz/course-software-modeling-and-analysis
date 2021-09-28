@@ -1,0 +1,162 @@
+\documentclass [11pt, a4wide, twoside]{article}
+
+\makeatletter
+\newcommand{\dontusepackage}[2][]{%
+\@namedef{ver@#2.sty}{9999/12/31}%
+\@namedef{opt@#2.sty}{#1}}
+\makeatother
+
+\dontusepackage{enumerate}
+
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{ifthen}
+\usepackage{xspace}
+\usepackage{fancyhdr}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{graphicx}
+% \usepackage{listings}
+\usepackage{color}
+\usepackage{enumitem}
+
+% \definecolor{dkgreen}{rgb}{0,0.6,0}
+% \definecolor{gray}{rgb}{0.5,0.5,0.5}
+% \definecolor{mauve}{rgb}{0.58,0,0.82}
+
+% \lstset{frame=tb,
+% language=Java,
+% aboveskip=3mm,
+% belowskip=3mm,
+% showstringspaces=false,
+% columns=flexible,
+% basicstyle={\small\ttfamily},
+% numbers=none,
+% numberstyle=\tiny\color{gray},
+% keywordstyle=\color{blue},
+% commentstyle=\color{dkgreen},
+% stringstyle=\color{mauve},
+% breaklines=true,
+% breakatwhitespace=true
+% tabsize=3
+% }
+
+\newboolean{showsolution}
+\setboolean{showsolution}{true} 
+
+\newlist{todolist}{itemize}{2}
+\setlist[todolist]{label=$\square$}
+\usepackage{pifont}
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+\newcommand{\done}{\rlap{$\square$}{\raisebox{2pt}{\large\hspace{1pt}\cmark}}%
+\hspace{-2.5pt}}
+\newcommand{\wontfix}{\rlap{$\square$}{\large\hspace{1pt}\xmark}}
+
+
+\input{../include}
+\definecolor{mircolor}{rgb}{0.4,0.6,0.2}
+\newcommand\ml[1]{\nbc{ML}{#1}{mircolor}}
+\usepackage{wasysym}
+\newcommand\yesml[1]{\nbc{ML {\textcolor{yellow}\sun}}{#1}{mircolor}}
+
+\begin{document}
+
+\section*{\ifthenelse{\boolean{showsolution}}{\textcolor{red}{Solution}\\}{}Assignment 12 --- 02.12.2020 -- v1.0\\Fuzz Testing}
+
+\textcolor{red}{Please submit this exercise by email to \href{mailto:pascal.gadient@inf.unibe.ch}{pascal.gadient@inf.unibe.ch} \underline{before} 09. December 2020, 10:15am.}
+
+% Demo for nice markings
+% \subsection*{Exercise 1: General Knowledge (4 Points)}
+% \begin{itemize}
+% \item Does correlation imply causality?
+% \begin{todolist}
+% \item[\wontfix] No.
+% \item[\done] Yes.
+% \end{todolist}
+% \end{itemize}
+
+% \ifthenelse{\boolean{showsolution}}{\item[\done]}{\item}
+
+\subsection*{Exercise 1: General questions (6 pts)}
+\begin{enumerate}[label=\alph*)]
+\item Explain the term \emph{fuzz testing}.
+\solution{Fuzz testing is an approach to test software automatically by feeding randomized or pattern-based inputs to a target application. The application under test might crash depending on the generated input. Such crashes are indicators for code bugs and might cause a vulnerability.}
+\item Explain the term \emph{smart fuzzer}.
+\solution{Smart fuzzers are armed with knowledge about the expected input format. For instance, a smart fuzzer knows exactly the structure of a protocol like http or a file format like jpg. As a result, they can produce valid input with a higher certainty. Moreover, they may simply fuzz parts of the input to discover crashes in the target program.}
+\item What is the role of symbolic execution engines in white box fuzzers?
+\solution{Unlike traditional dumb fuzzers, symbolic execution tools accurately capture the computation of each value. 
+In symbolic execution engines, \emph{Satisfiability Modulo Theories (SMT)} solvers help to extract data from the source code that afterwards fosters the creation of fuzzed input that can trigger more complex branches, eventually leading to a better code coverage.}
+\item Explain one limitation of symbolic execution?
+\solution{On paper, symbolic execution can discover inputs for any feasible path in a program but this ability makes it fairly slow compared to mutation-based fuzzers and impractical in real-world scenarios.
+Another limitation can be the fact that loops or recursions create an infinite execution tree.}
+\item Name three concolic execution engines.
+\solution{Savior, Qsym, and Driller.}
+\item How does concolic execution extend symbolic execution?
+\solution{The main distinction is that concolic execution expands symbolic values with concrete values (therefore the term concolic was used). The concrete values in the starting point of a program provide a clue for the search heuristics concerning which paths to practice first.}
+\end{enumerate}
+
+\ifthenelse{\boolean{showsolution}}{\newpage}{}
+
+\subsection*{Exercise 2: AFL tool (1 pt)}
+Answer which of the statements below are correct with respect to the \emph{AFL} fuzzer. You do not need to justify or elaborate your answer.
+\ifthenelse{\boolean{showsolution}}{\solution{\vspace*{-0.75cm}
+\begin{todolist}
+\item[\done] AFL is a grey box fuzzer.
+\item[\done] AFL instruments the source code of the target program to measure code coverage.
+\item[\done] AFL also supports the QEMU mode when the source code is unavailable.
+\item AFL released in 2016 and became an international standard in fuzz testing.
+\end{todolist}}}{\begin{todolist}
+\item AFL is a grey box fuzzer.
+\item AFL instruments the source code of the target program to measure code coverage.
+\item AFL also supports the QEMU mode when the source code is unavailable.
+\item AFL was released in 2016 and became an international standard in fuzz testing.
+\end{todolist}}
+
+\newpage
+
+\subsection*{Exercise 3: Fuzzing in practice (3 pts)}
+\underline{Preparation:}
+For this exercise, we work with a Debian-based operating system, because all required tools are already available from its package management system. We already prepared a virtual machine (VM) for you with all the necessary tools and our compiled \emph{VulnerableApp} that can be run with VirtualBox.\\\\
+Please perform the following steps:
+\begin{enumerate}
+\item Download and install the latest version of \emph{VirtualBox} from \href{https://www.virtualbox.org/wiki/Downloads}{here} (you can find the relevant downloads for popular operating systems labeled as ``platform packages'').
+\item Download the pre-configured virtual machine (VM) from \href{https://drive.google.com/file/d/19Cc-R9RhlbQMF38PLlkYsrILgom9C3SM/view?usp=sharing}{here}.
+\item When you start VirtualBox for the first time, it asks whether it should download an extension package. If you download and install the extension pack you will have better hardware support in the VMs, \eg USB3, etc.
+\item Import the downloaded VM into VirtualBox (click on the ``File'' menu, then select ``Import Appliance'').
+\item In the upcoming assistant you do not have to change any options except specifying the previously downloaded file for the import.
+\item After the import succeeded, you can select the ``Lubuntu'' VM in the list and click on the large ``Start'' button to start the VM.
+\item You do not need this information for this exercise, but anyway: the user name is ``Playground'' and the password is ``1234''.
+\end{enumerate}
+
+\underline{Your tasks:}
+\begin{enumerate}[label=\alph*)]
+\item Create a text file that \emph{only} contains the term \texttt{Fuzztesting}. 
+Next, parametrize the \emph{zzuf} fuzzer with a seed value of 2 and a ratio of 0.01, and pass the content of your text file (\eg test.txt) to it.\\\\What is the resulting command string, and what is the output message? (2 pts)
+\solution{A resulting command string could be\\\texttt{zzuf -s 2 -r 0.01 cat test.txt}\\ and it prints the term ``BuzztesTing'' to the console.}
+\item Run the \texttt{VulnerableApp} program from the terminal and enter a single character within the range \texttt{a-z} or \texttt{A-Z}. Then press the return key on your keyboard to confirm your input.
+%./vuln2.o
+%a
+%a = 97
+The program should return the ASCII code of the character you entered.
+Now, we want to explore whether the application crashes from arbitrary input generated by the zzuf fuzzer.
+Such crashes could be buffer overflows that frequently enable remote code execution.
+For that, we are interested in observing which seeds cause the program to crash.
+As starting point for the fuzzer's input generation we use a text file that \emph{only} contains the character \texttt{a}.
+As before, we provide that text file as input for the fuzzer and then we pipe the output of zzuf into the \emph{VulnerableApp}. You can achieve piping in Linux shells with the vertical bar, \eg \texttt{ls \textbar~wc} forwards the console output of \texttt{ls} to the input of \texttt{wc} (\texttt{wc} will count the words returned by \texttt{ls}). However, this time we use a different seed (starting from 20, only integer numbers) and ratio parameter (0.5).\\\\
+Your task is to find seed values between 20 and 30 where \emph{zzuf} leads to a crash in VulnerableApp. (1 pt)
+%Use the following command and try seeds from 20 to 25.
+\solution{\texttt{\#!/bin/bash\\
+for i in \{20..30\}\\
+do\\
+\hspace*{0.5cm}zzuf -s \$i -r 0.5 cat char.txt \textbar~./VulnerableApp\\
+done}\\\\
+There exist several seeds that cause the application to crash, \eg 2, 3, 4, 5, 6, 8, 10, 12, 13, 15, 16, 18, 19, \textbf{21}, \textbf{24}, \textbf{25}, \textbf{26}, \textbf{27}, \textbf{28}, \textbf{29}, 31, etc.}
+\end{enumerate}
+
+\subsection*{Exercise 4: Exam preparation (3 pts BONUS)}
+Please start reviewing the content of this course and ask questions, if any, \underline{by mail}. The questions will be discussed during next practical session which will be a Q\&A session for the final exam. \textbf{Deadline for questions: upcoming Monday, 07/12/2020, 23:59 (midnight).}
+\solution{Please have a look at the Q\&A summary on the \href{http://scg.unibe.ch/download/lectures/sma-exercises/SMA_Q&A_Slides.pdf}{SCG webpage}.}
+
+\end{document}

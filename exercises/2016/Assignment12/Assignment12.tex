@@ -1,0 +1,89 @@
+\documentclass [11pt, a4wide, twoside]{article}
+
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{ifthen}
+\usepackage{xspace}
+\usepackage{fancyhdr}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true
+  tabsize=3
+}
+
+% solution switch
+\newboolean{showsolution}
+\setboolean{showsolution}{false} 
+%\setboolean{showsolution}{false} 
+
+\input{../include}
+\definecolor{mircolor}{rgb}{0.4,0.6,0.2}
+\newcommand\ml[1]{\nbc{ML}{#1}{mircolor}}
+\usepackage{wasysym}
+\newcommand\yesml[1]{\nbc{ML {\textcolor{yellow}\sun}}{#1}{mircolor}}
+
+\begin{document}
+
+% title
+\section*{\ifthenelse{\boolean{showsolution}}{Solution }{}Software Data Analytics}
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Please submit this exercise to the git repository before 10h15, December 13, 2016.\\
+
+\noindent
+\textbf{\color{red}  !!} Please take part in the \href{http://rio.inf.usi.ch/survey/index.php/778353}{QualityAssistant survey}. It requires only 2-5 minutes of your time.
+
+\subsection*{Exercise 1:}
+In some cases the order of terms matter to us but we did not discuss such cases during the lecture. For example, "Tom is longer than Jerry" and "Jerry is longer than Tom" both have the same vector, but different semantics. 
+What would be your naive approach to take the order of terms into account when it matters to you? 
+
+\emph{Note: this is an open question and I would like you to come up with any ad-hoc proposal that could (partially) help addressing this issue.}
+
+\subsection*{Exercise 2:}
+Build the concept lattice for the following relation table either by hand or using one of the tools.
+
+\begin{table}[h]
+\centering
+\label{my-label}
+\begin{tabular}{lccccc}
+         & sweet & hot & alcoholic & colored & sparkling \\ \hline
+coffee   &       & X   &           & X       &           \\ \hline
+tea      &       & X   &           & X       &           \\ \hline
+coke     & X     &     &           &         & X         \\ \hline
+sprite   & X     &     &           &         & X         \\ \hline
+red wine &       &     & X         & X       &           \\ \hline
+beer     &       &     & X         & X       & X         \\ \hline
+\end{tabular}
+\end{table}
+
+Compute the closure of \{colored, sparkling\}.
+
+
+\subsection*{Exercise 3:}
+Imagine that you are analyzing a software system with FCA. As objects are represented by methods while features consist of: \emph{calls self}, \emph{calls super}, \emph{is abstract}, \emph{is concrete}, \emph{is constructor}. Which concepts do you expect to emerge?
+
+\end{document}

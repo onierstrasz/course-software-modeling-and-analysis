@@ -1,0 +1,105 @@
+\documentclass [11pt, a4wide, twoside]{article}
+
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{ifthen}
+\usepackage{xspace}
+\usepackage{fancyhdr}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true
+  tabsize=3
+}
+
+% solution switch
+\newboolean{showsolution}
+\setboolean{showsolution}{false} 
+%\setboolean{showsolution}{false} 
+
+\input{../include}
+
+\begin{document}
+
+% title
+\section*{\ifthenelse{\boolean{showsolution}}{Solution }{}Smalltalk: Understanding Classes and Metaclasses}
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Please submit this exercise to the git repository before 10h15, October 11, 2016.
+Don't forget to register on \href{https://piazza.com/unibe.ch/fall2016/sma21045}{piazza.com}.
+Also \href{https://www-academia.unine.ch/imoniteur_pbol/PORTAL3S.htm}{register for the course} by Oct 14!
+
+\subsection*{Exercise 1}
+Based on the UML diagram
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{super.pdf}
+\end{figure}
+\noindent
+
+answer what will be the results of the following expressions:
+\begin{enumerate}
+\item \begin{code}
+	Who new amIClassy
+	\end{code}
+	
+\item \begin{code}
+	Who new classy = Who new classy1
+	\end{code}
+	
+\item \begin{code}
+	Who new classy1 = Who new classy2
+	\end{code}
+
+\end{enumerate}
+Explain your answers.
+
+\needlines{5}
+
+
+\subsection*{Exercise 2}
+
+Find all the abstract methods of the class \ct{Collection}.
+\begin{itemize}
+\item Hint: An abstract method has the body \ct{self subclassResponsibility}.
+Send \ct{methods} to get the methods of a class, and use \ct{messages} to get the messages sent by a method.
+\end{itemize}
+
+\subsection*{Exercise 3}
+How deep is the Pharo class hierarchy?
+Find the deepest class ignoring metaclasses.
+\begin{itemize}
+\item Hint: use the method \ct{Class>>>#subclasses}
+\end{itemize}
+
+\subsection*{Exercise 4}
+How deep is the \ct{Collections} hierarchy?  What is the deepest class?
+
+
+\subsection*{}
+Note: For the Exercise 3, 4, 5 file out the appropriate source code and commit the .st files to the git repository on \href{https://bitbucket.org}{https://bitbucket.org}.
+\end{document}
